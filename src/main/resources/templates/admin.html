@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--  ↓ загружено в "Семью"!  -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Admin Page</title>
+</head>
+<body>
+<div class="nav m-1 bg-secondary justify-content-end">
+    <a class="m-1 text-light" href="/logout">Log out</a>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col m-1">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#admin-tab">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#user-tab">User</a>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div id="admin-tab" class="tab-pane container active m-1">
+                <!--            <div class="row">-->
+                <ul class="nav nav-tabs m-1">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#users-table">All Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#add-new-user">Add New User</a>
+                    </li>
+                </ul>
+                <!--            </div>-->
+                <div class="tab-content">
+                    <div id="users-table" class="tab-pane container active table-responsive">
+                        <table class="table table-hover text-center">
+                            <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Username</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Last name</th>
+                                <th scope="col">Department</th>
+                                <th scope="col">Salary</th>
+                                <th scope="col">Age</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Role(s)</th>
+                                <th scope="col">Enabled</th>
+                                <th scope="col">Operations</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="user: ${users}">
+                                <td th:text="${user.username}"></td>
+                                <td th:text="${user.name}"></td>
+                                <td th:text="${user.lastName}"></td>
+                                <td th:text="${user.department}"></td>
+                                <td th:text="${user.salary}"></td>
+                                <td th:text="${user.age}"></td>
+                                <td th:text="${user.email}"></td>
+                                <td>
+                    <span th:each="role, iter : ${user.authorities}"
+                          th:text="${role.authority == 'USER' ? 'U' : (role.authority == 'ADMIN' ? 'A' : '')} + ${iter.last ? '' : ' '}"></span>
+                                </td>
+                                <td th:text="${user.isEnabled() ? '+' : '-'}"></td>
+                                <td class="btn-group btn-group-sm">
+                                    <a th:href="${user.username == loggedUser ? '/user/update-info' : '/admin/update-user?username=' + user.username}"
+                                       class="btn btn-outline-primary">Update</a>
+                                    <a th:href="${user.isEnabled() ? '/admin/disable-user?username=' + user.username : '/admin/enable-user?username=' + user.username}"
+                                       th:class="${user.isEnabled() ? 'btn btn-outline-warning' : 'btn btn-outline-success'}"
+                                       th:text="${user.isEnabled() ? 'Disable' : 'Enable'}"></a>
+                                    <a th:href="@{/admin/delete-user(username=${user.username})}"
+                                       class="btn btn-outline-danger">Delete</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="add-new-user" class="tab-pane container">
+                        <h2>Fill in the forms</h2>
+                        <form class="forms" th:action="@{/save-user(passwordChange=true)}" th:object="${newUser}"
+                              method="post">
+                            <input type="hidden" th:field="*{id}">
+
+                            <fieldset>
+                                <label for="username">Username: </label>
+                                <input id="username" th:field="*{username}" type="text" minlength="2"
+                                       maxlength="15" required/>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="password">Password: </label>
+                                <input id="password" th:field="*{password}" type="text" minlength="5" required/>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="name">Name: </label>
+                                <input id="name" th:field="*{name}" type="text" minlength="2" maxlength="15" required/>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="last-name">Last name: </label>
+                                <input id="last-name" th:field="*{lastName}" type="text" minlength="2"
+                                       maxlength="25" required/>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="departments">Department: </label>
+                                <select id="departments" th:field="*{department}" required>
+                                    <option value="accounting">Accounting</option>
+                                    <option value="sales">Sales</option>
+                                    <option value="information technology">IT</option>
+                                    <option value="human resources">HR</option>
+                                    <option value="board of directors">Board</option>
+                                </select>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="salary">Salary: </label>
+                                <input id="salary" th:field="*{salary}" type="number" min="100000" required/>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="age">Age: </label>
+                                <input id="age" th:field="*{age}" type="number" min="18" max="127" required/>
+                            </fieldset>
+
+                            <fieldset>
+                                <label for="email">Email: </label>
+                                <input id="email" th:field="*{email}" type="text"
+                                       pattern="[a-z._-]+@[a-z]{1,}\.[a-z]{2,3}"
+                                       required/>
+                            </fieldset>
+
+                            <input type="hidden" th:field="*{enabledByte}">
+
+                            <fieldset class="bordered">
+                                <legend>Privileges</legend>
+                                <label for="user">User: </label>
+                                <input id="user" th:name="authorities" type="radio"
+                                       th:value="*{#strings.toString(authorities)}"
+                                       checked/>
+                                <label for="admin">User + Admin: </label>
+                                <input id="admin" th:name="authorities" type="radio"
+                                       th:value="${#strings.toString(adminRoleSet)}"/>
+                            </fieldset>
+
+                            <input class='main-button' type="submit" value="Submit">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="user-tab" class="tab-pane container m-1">
+                <h2>Your Details</h2>
+                <ol th:object="${loggedUser}">
+                    <li><span class="label">Username: </span><span th:text="*{username}"></span></li>
+                    <li><span class="label">Name: </span><span th:text="*{name}"></span></li>
+                    <li><span class="label">Lastname: </span><span th:text="*{lastName}"></span></li>
+                    <li><span class="label">Department: </span><span th:text="*{department}"></span></li>
+                    <li><span class="label">Salary: </span><span th:text="*{salary}"></span></li>
+                    <li><span class="label">Age: </span><span th:text="*{age}"></span></li>
+                    <li><span class="label">Email: </span><span th:text="*{email}"></span></li>
+                    <li><span class="label">Role(s): </span>
+                        <span th:each="role, iter : ${loggedUser.authorities}"
+                              th:text="${role.authority == 'USER' ? 'U' : (role.authority == 'ADMIN' ? 'A' : '')} + ${iter.last ? '' : ' '}"></span>
+                    </li>
+                </ol>
+                <a th:href="@{/user/update-info}">
+                    <button class="main-button">Edit Info</button>
+                </a>
+                <a th:href="@{/user/update-password}">
+                    <button>Change Password</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  ↓ загружено в "Семью"!  -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
