@@ -67,9 +67,63 @@
                                           th:text="${role.authority == 'USER' ? 'U' : (role.authority == 'ADMIN' ? 'A' : '')} + ${iter.last ? '' : ' '}"></span>
                                 </td>
                                 <td th:text="${user.isEnabled() ? '+' : '-'}"></td>
+
                                 <td class="btn-group btn-group-sm">
-                                    <a th:href="${user.username == loggedUser ? '/user/update-info' : '/admin/update-user?username=' + user.username}"
-                                       class="btn btn-outline-primary">Update</a>
+                                    <a class="btn btn-outline-primary" data-toggle="modal" th:data-target="${'#updateModal' + user.username}">Update</a>
+                                    <div class="modal" th:id="${'updateModal' + user.username}">
+                                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                                            <div class="modal-content">
+
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" th:text="${'Edit ' + user.name + ' ' + user.lastName + ' (' + user.username + ')'}"></h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    <p class="text-left" th:text="'For the sake of privacy, you are only allowed to change the user\'s department ' +
+                                                        'and salary. If you think ' + ${user.name} + '\'s personal info needs to be altered, please request them to do so'"></p>
+
+                                                    <form th:action="@{/save-user}" th:object="${user}" method="post">
+                                                        <input type="hidden" name="id" th:value="${user.id}">
+
+                                                        <input type="hidden" name="username" th:value="${user.username}">
+
+                                                        <input type="hidden" name="password" th:value="${user.password}">
+
+                                                        <input type="hidden" name="name" th:value="${user.name}">
+
+                                                        <input type="hidden" name="lastName" th:value="${user.lastName}">
+
+                                                        <fieldset>
+                                                            <label for="departments">Department: </label>
+                                                            <select id="departments" name="department" th:value="${user.department}">
+                                                                <option th:value="accounting">Accounting</option>
+                                                                <option th:value="sales">Sales</option>
+                                                                <option th:value="'information technology'">IT</option>
+                                                                <option th:value="'human resources'">HR</option>
+                                                            </select>
+                                                        </fieldset>
+
+                                                        <fieldset>
+                                                            <label for="salary">Salary: </label>
+                                                            <input id="salary" name="salary" th:value="${user.salary}"/>
+                                                        </fieldset>
+
+                                                        <input type="hidden" name="age" th:value="${user.age}">
+
+                                                        <input type="hidden" name="email" th:value="${user.email}">
+
+                                                        <input type="hidden" name="enabledByte" th:value="${user.enabledByte}">
+
+                                                        <input type="hidden" th:name="authorities"
+                                                               th:value="${#strings.toString(user.authorities)}"/>
+
+                                                        <input class="main-button" type="submit" value="Submit">
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
 
                                     <a th:href="${user.isEnabled() ? '/admin/disable-user?username=' + user.username : '/admin/enable-user?username=' + user.username}"
@@ -112,30 +166,30 @@
                             <input type="hidden" th:field="*{id}">
 
                             <fieldset>
-                                <label for="username">Username: </label>
-                                <input id="username" th:field="*{username}" type="text" minlength="2"
+                                <label for="nu-username">Username: </label>
+                                <input id="nu-username" th:field="*{username}" type="text" minlength="2"
                                        maxlength="15" required/>
                             </fieldset>
 
                             <fieldset>
-                                <label for="password">Password: </label>
-                                <input id="password" th:field="*{password}" type="text" minlength="5" required/>
+                                <label for="nu-password">Password: </label>
+                                <input id="nu-password" th:field="*{password}" type="text" minlength="5" required/>
                             </fieldset>
 
                             <fieldset>
-                                <label for="name">Name: </label>
-                                <input id="name" th:field="*{name}" type="text" minlength="2" maxlength="15" required/>
+                                <label for="nu-name">Name: </label>
+                                <input id="nu-name" th:field="*{name}" type="text" minlength="2" maxlength="15" required/>
                             </fieldset>
 
                             <fieldset>
-                                <label for="last-name">Last name: </label>
-                                <input id="last-name" th:field="*{lastName}" type="text" minlength="2"
+                                <label for="nu-last-name">Last name: </label>
+                                <input id="nu-last-name" th:field="*{lastName}" type="text" minlength="2"
                                        maxlength="25" required/>
                             </fieldset>
 
                             <fieldset>
-                                <label for="departments">Department: </label>
-                                <select id="departments" th:field="*{department}" required>
+                                <label for="nu-departments">Department: </label>
+                                <select id="nu-departments" th:field="*{department}" required>
                                     <option value="accounting">Accounting</option>
                                     <option value="sales">Sales</option>
                                     <option value="information technology">IT</option>
@@ -145,18 +199,18 @@
                             </fieldset>
 
                             <fieldset>
-                                <label for="salary">Salary: </label>
-                                <input id="salary" th:field="*{salary}" type="number" min="100000" required/>
+                                <label for="nu-salary">Salary: </label>
+                                <input id="nu-salary" th:field="*{salary}" type="number" min="100000" required/>
                             </fieldset>
 
                             <fieldset>
-                                <label for="age">Age: </label>
-                                <input id="age" th:field="*{age}" type="number" min="18" max="127" required/>
+                                <label for="nu-age">Age: </label>
+                                <input id="nu-age" th:field="*{age}" type="number" min="18" max="127" required/>
                             </fieldset>
 
                             <fieldset>
-                                <label for="email">Email: </label>
-                                <input id="email" th:field="*{email}" type="text"
+                                <label for="nu-email">Email: </label>
+                                <input id="nu-email" th:field="*{email}" type="text"
                                        pattern="[a-z._-]+@[a-z]{1,}\.[a-z]{2,3}"
                                        required/>
                             </fieldset>

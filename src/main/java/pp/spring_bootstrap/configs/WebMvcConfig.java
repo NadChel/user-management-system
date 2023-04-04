@@ -21,7 +21,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        System.out.println("addFormatters() called");
         registry.addFormatter(new Formatter<Set<Role>>() {
             @Override
             public Set<Role> parse(String text, Locale locale) {
