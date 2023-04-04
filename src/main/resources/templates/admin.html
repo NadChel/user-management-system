@@ -63,18 +63,43 @@
                                 <td th:text="${user.age}"></td>
                                 <td th:text="${user.email}"></td>
                                 <td>
-                    <span th:each="role, iter : ${user.authorities}"
-                          th:text="${role.authority == 'USER' ? 'U' : (role.authority == 'ADMIN' ? 'A' : '')} + ${iter.last ? '' : ' '}"></span>
+                                    <span th:each="role, iter : ${user.authorities}"
+                                          th:text="${role.authority == 'USER' ? 'U' : (role.authority == 'ADMIN' ? 'A' : '')} + ${iter.last ? '' : ' '}"></span>
                                 </td>
                                 <td th:text="${user.isEnabled() ? '+' : '-'}"></td>
                                 <td class="btn-group btn-group-sm">
                                     <a th:href="${user.username == loggedUser ? '/user/update-info' : '/admin/update-user?username=' + user.username}"
                                        class="btn btn-outline-primary">Update</a>
+
+
                                     <a th:href="${user.isEnabled() ? '/admin/disable-user?username=' + user.username : '/admin/enable-user?username=' + user.username}"
                                        th:class="${user.isEnabled() ? 'btn btn-outline-warning' : 'btn btn-outline-success'}"
                                        th:text="${user.isEnabled() ? 'Disable' : 'Enable'}"></a>
-                                    <a th:href="@{/admin/delete-user(username=${user.username})}"
-                                       class="btn btn-outline-danger">Delete</a>
+
+                                    <a class="btn btn-outline-danger" data-toggle="modal" th:data-target="${'#deleteModal' + user.username}">Delete</a>
+                                    <div class="modal" th:id="${'deleteModal' + user.username}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title"
+                                                        th:text="${'Are you sure you want to delete ' + user.name + ' ' + user.lastName + ' (' + user.username + ')?'}"></h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    This action may not be easily reversed
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <a class="btn btn-danger"
+                                                       th:href="@{/admin/delete-user(username=${user.username})}">I am
+                                                        sure</a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>
@@ -170,10 +195,10 @@
                     </li>
                 </ol>
                 <a th:href="@{/user/update-info}">
-                    <button class="main-button">Edit Info</button>
+                    <button class="btn btn-primary">Edit Info</button>
                 </a>
                 <a th:href="@{/user/update-password}">
-                    <button>Change Password</button>
+                    <button class="btn btn-outline-primary">Change Password</button>
                 </a>
             </div>
         </div>
