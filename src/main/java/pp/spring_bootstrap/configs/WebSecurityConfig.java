@@ -7,15 +7,12 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import javax.sql.DataSource;
-import java.util.Set;
 
 @Configuration
 @Import(WebMvcConfig.class)
@@ -33,7 +30,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/user/**").hasAuthority("USER")
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
-                .and().formLogin().successHandler(successHandler())
+                .and().formLogin()
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login");
         return http.build();
     }
@@ -51,24 +48,7 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public AuthenticationSuccessHandler successHandler() {
-        return (httpServletRequest, httpServletResponse, authentication) -> {
-            Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-            if (roles.contains("ADMIN")) {
-                httpServletResponse.sendRedirect("/admin");
-            } else {
-                httpServletResponse.sendRedirect("/user");
-            }
-        };
-    }
-
-    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
     }
-
-//    @Bean
-//    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
-//        return new GrantedAuthorityDefaults(""); // удаление дефолтного префикса "ROLE_"
-//    }
 }

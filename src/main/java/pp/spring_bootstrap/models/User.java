@@ -55,6 +55,10 @@ public class User implements UserDetails {
         return authorities;
     }
 
+    public boolean isAdmin() {
+        return authorities.stream().anyMatch(a -> a.getAuthority().equals("ADMIN"));
+    }
+
     public boolean isBoardMember() {
         return department.equals("board of directors");
     }
