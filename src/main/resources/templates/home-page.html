@@ -39,7 +39,6 @@
         </div>
         <div class="col-sm-11 p-0 tab-content">
             <div id="admin-tab" th:class="'tab-pane container p-0 mw-100' + ${loggedUser.isAdmin() ? ' active' : ''}">
-                <!--            <div class="row">-->
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#users-table">All Users</a>
@@ -48,7 +47,6 @@
                         <a class="nav-link" data-toggle="tab" href="#add-new-user">Add New User</a>
                     </li>
                 </ul>
-                <!--            </div>-->
                 <div class="tab-content">
                     <div id="users-table" class="tab-pane container mw-100 active table-responsive">
                         <input class="form-control my-2" id="my-search-input" type="text" placeholder="Search...">
