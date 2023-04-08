@@ -129,13 +129,19 @@
                                                                 <option th:selected="${user.department == 'human resources'}"
                                                                         th:value="'human resources'">HR
                                                                 </option>
+                                                                <option th:selected="${user.department == 'board of directors'}"
+                                                                        th:value="'board of directors'">Board
+                                                                </option>
                                                             </select>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="salary">Salary: </label>
-                                                            <input id="salary" class="form-control" name="salary"
-                                                                   th:value="${user.salary}"/>
+                                                            <input id="salary" class="form-control" name="salary" th:value="${user.salary}"
+                                                                   min="100000" aria-describedby="au-salary-help-block" required/>
+                                                            <small id="au-salary-help-block" class="form-text text-muted">
+                                                                100,000+
+                                                            </small>
                                                         </div>
 
                                                         <input type="hidden" name="age" th:value="${user.age}">
@@ -201,27 +207,38 @@
                             <div class="form-group">
                                 <label for="nu-username">Username: </label>
                                 <input id="nu-username" class="form-control" th:field="*{username}" type="text"
-                                       minlength="2"
-                                       maxlength="15" required/>
+                                       minlength="2" maxlength="15" aria-describedby="username-help-block" required>
+                                <small id="username-help-block" class="form-text text-muted">
+                                    2-15 characters
+                                </small>
                             </div>
 
                             <div class="form-group">
                                 <label for="nu-password">Password: </label>
                                 <input id="nu-password" class="form-control" th:field="*{password}" type="text"
-                                       minlength="5" required/>
+                                       minlength="5" aria-describedby="password-help-block" required/>
+                                <small id="password-help-block" class="form-text text-muted">
+                                    5+ characters
+                                </small>
+
                             </div>
 
                             <div class="form-group">
                                 <label for="nu-name">Name: </label>
                                 <input id="nu-name" class="form-control" th:field="*{name}" type="text" minlength="2"
-                                       maxlength="15" required/>
+                                       maxlength="15" aria-describedby="name-help-block" required/>
+                                <small id="name-help-block" class="form-text text-muted">
+                                    2-15 characters
+                                </small>
                             </div>
 
                             <div class="form-group">
                                 <label for="nu-last-name">Last name: </label>
                                 <input id="nu-last-name" class="form-control" th:field="*{lastName}" type="text"
-                                       minlength="2"
-                                       maxlength="25" required/>
+                                       minlength="2" maxlength="25" aria-describedby="last-name-help-block" required/>
+                                <small id="last-name-help-block" class="form-text text-muted">
+                                    2-15 characters
+                                </small>
                             </div>
 
                             <div class="form-group">
@@ -238,20 +255,29 @@
                             <div class="form-group">
                                 <label for="nu-salary">Salary: </label>
                                 <input id="nu-salary" class="form-control" th:field="*{salary}" type="number"
-                                       min="100000" required/>
+                                       min="100000" aria-describedby="salary-help-block" required/>
+                                <small id="salary-help-block" class="form-text text-muted">
+                                    100,000+
+                                </small>
                             </div>
 
                             <div class="form-group">
                                 <label for="nu-age">Age: </label>
                                 <input id="nu-age" class="form-control" th:field="*{age}" type="number" min="18"
-                                       max="127" required/>
+                                       max="127" aria-describedby="age-help-block" required/>
+                                <small id="age-help-block" class="form-text text-muted">
+                                    18-127
+                                </small>
                             </div>
 
                             <div class="form-group">
                                 <label for="nu-email">Email: </label>
                                 <input id="nu-email" class="form-control" th:field="*{email}" type="email"
                                        pattern="[A-Za-z._-]+@[a-z]{1,}\.[a-z]{2,4}"
-                                       required/>
+                                       aria-describedby="email-help-block" required/>
+                                <small id="email-help-block" class="form-text text-muted">
+                                    Any valid email address
+                                </small>
                             </div>
 
                             <input type="hidden" th:field="*{enabledByte}">
@@ -280,7 +306,7 @@
                  th:object="${loggedUser}">
                 <h4 class="display-4 text-center mb-4">Your employee card</h4>
                 <div class="card mx-auto shadow" style="width:max-content">
-                    <div class="card-header text-secondary">
+                    <div class="card-header text-center text-secondary">
                         <h4 class="d-inline font-weight-bold" th:text="*{name + ' ' + lastName}"></h4>
                         <span th:text="*{' (' + username + ')'}"></span>
                     </div>
@@ -322,19 +348,32 @@
 
                                             <div class="form-group">
                                                 <label for="username">Username: </label>
-                                                <input id="username" class="form-control" th:field="*{username}"/>
+                                                <input id="username" class="form-control" th:field="*{username}" min="2"
+                                                       max="15" aria-describedby="uu-username-help-block" required/>
+                                                <small id="uu-username-help-block" class="form-text text-muted">
+                                                    2-15 characters
+                                                </small>
                                             </div>
 
                                             <input type="hidden" th:field="*{password}"/>
 
                                             <div class="form-group">
                                                 <label for="name">Name: </label>
-                                                <input id="name" class="form-control" th:field="*{name}"/>
+                                                <input id="name" class="form-control" th:field="*{name}" min="5"
+                                                        aria-describedby="uu-name-help-block" required/>
+                                                <small id="uu-name-help-block" class="form-text text-muted">
+                                                    5+ characters
+                                                </small>
+
                                             </div>
 
                                             <div class="form-group">
                                                 <label for="last-name">Last name: </label>
-                                                <input id="last-name" class="form-control" th:field="*{lastName}"/>
+                                                <input id="last-name" class="form-control" th:field="*{lastName}" min="2"
+                                                        max="15" aria-describedby="uu-last-name-help-block" required/>
+                                                <small id="uu-last-name-help-block" class="form-text text-muted">
+                                                    2-15 characters
+                                                </small>
                                             </div>
 
                                             <input type="hidden" th:field="*{department}"/>
@@ -343,12 +382,21 @@
 
                                             <div class="form-group">
                                                 <label for="age">Age: </label>
-                                                <input id="age" class="form-control" th:field="*{age}"/>
+                                                <input id="age" class="form-control" th:field="*{age}" min="18"
+                                                       max="127" aria-describedby="uu-age-help-block" required/>
+                                                <small id="uu-age-help-block" class="form-text text-muted">
+                                                    18-127
+                                                </small>
                                             </div>
 
                                             <div class="form-group">
                                                 <label for="email">Email: </label>
-                                                <input id="email" class="form-control" th:field="*{email}"/>
+                                                <input id="email" class="form-control" th:field="*{email}"
+                                                       pattern="[A-Za-z._-]+@[a-z]{1,}\.[a-z]{2,4}"
+                                                       aria-describedby="uu-email-help-block" required/>
+                                                <small id="uu-email-help-block" class="form-text text-muted">
+                                                    Any valid email address
+                                                </small>
                                             </div>
 
                                             <input type="hidden" th:field="*{enabledByte}"/>
@@ -376,15 +424,18 @@
                                     </div>
                                     <div class="modal-body">
                                         <form class="forms" th:action="@{/save-user(passwordChange=true)}"
-                                              th:object="${loggedUser}"
-                                              method="post">
+                                              th:object="${loggedUser}" method="post">
                                             <input type="hidden" th:field="*{id}"/>
 
                                             <input type="hidden" th:field="*{username}"/>
 
                                             <div class="form-group">
                                                 <label for="password">Your new password: </label>
-                                                <input id="password" class="form-control" name="password" required/>
+                                                <input id="password" class="form-control" name="password" min="5"
+                                                       aria-describedby="uu-password-help-block" required/>
+                                                <small id="uu-password-help-block" class="form-text text-muted">
+                                                    5+ characters
+                                                </small>
                                             </div>
 
                                             <input type="hidden" th:field="*{name}"/>
