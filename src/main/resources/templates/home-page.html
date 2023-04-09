@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="icon" href="/favicon.ico">
@@ -137,9 +136,12 @@
 
                                                         <div class="form-group">
                                                             <label for="salary">Salary: </label>
-                                                            <input id="salary" class="form-control" name="salary" th:value="${user.salary}"
-                                                                   min="100000" aria-describedby="au-salary-help-block" required/>
-                                                            <small id="au-salary-help-block" class="form-text text-muted">
+                                                            <input id="salary" class="form-control" name="salary"
+                                                                   th:value="${user.salary}"
+                                                                   min="100000" aria-describedby="au-salary-help-block"
+                                                                   required/>
+                                                            <small id="au-salary-help-block"
+                                                                   class="form-text text-muted">
                                                                 100,000+
                                                             </small>
                                                         </div>
@@ -305,161 +307,184 @@
             <div id="user-tab" th:class="'tab-pane container p-0 mx-auto' + ${!loggedUser.isAdmin() ? ' active' : ''}"
                  th:object="${loggedUser}">
                 <h4 class="display-4 text-center mb-4">Your employee card</h4>
-                <div class="card mx-auto shadow" style="width:max-content">
-                    <div class="card-header text-center text-secondary">
-                        <h4 class="d-inline font-weight-bold" th:text="*{name + ' ' + lastName}"></h4>
-                        <span th:text="*{' (' + username + ')'}"></span>
+                <div class="d-flex justify-content-around">
+
+                    <div class="shadow my-auto" style="width:290px; height:310px">
+                        <div style="background-color:rgba(0,0,0,.03);height:15%">
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <ol>
-                            <li><span class="font-weight-bold">Username: </span><span th:text="*{username}"></span></li>
-                            <li><span class="font-weight-bold">Name: </span><span th:text="*{name}"></span></li>
-                            <li><span class="font-weight-bold">Lastname: </span><span th:text="*{lastName}"></span></li>
-                            <li><span class="font-weight-bold">Department: </span><span th:text="*{department}"></span>
-                            </li>
-                            <li><span class="font-weight-bold">Salary: </span><span th:text="*{salary}"></span></li>
-                            <li><span class="font-weight-bold">Age: </span><span th:text="*{age}"></span></li>
-                            <li><span class="font-weight-bold">Email: </span><span th:text="*{email}"></span></li>
-                            <li><span class="font-weight-bold">Role(s): </span>
-                                <span th:each="role, iter : ${loggedUser.authorities}"
-                                      th:text="${role.authority == 'USER' ? 'U' : (role.authority == 'ADMIN' ? 'A' : '')} + ${iter.last ? '' : ' '}"></span>
-                            </li>
-                        </ol>
 
-                        <a class="btn btn-outline-primary" data-toggle="modal" data-target="#update-modal-logged-user"
-                           href="#">
-                            Edit info
-                        </a>
-                        <div class="modal" id="update-modal-logged-user">
-                            <div class="modal-dialog modal-lg modal-dialog-centered">
-                                <div class="modal-content">
+                    <div class="card mx-auto shadow-lg" style="width:max-content">
+                        <div class="card-header text-center text-secondary">
+                            <h4 class="d-inline font-weight-bold" th:text="*{name + ' ' + lastName}"></h4>
+                            <span th:text="*{' (' + username + ')'}"></span>
+                        </div>
+                        <div class="card-body">
+                            <ol>
+                                <li><span class="font-weight-bold">Username: </span><span th:text="*{username}"></span>
+                                </li>
+                                <li><span class="font-weight-bold">Name: </span><span th:text="*{name}"></span></li>
+                                <li><span class="font-weight-bold">Lastname: </span><span th:text="*{lastName}"></span>
+                                </li>
+                                <li><span class="font-weight-bold">Department: </span><span
+                                        th:text="*{department}"></span>
+                                </li>
+                                <li><span class="font-weight-bold">Salary: </span><span th:text="*{salary}"></span></li>
+                                <li><span class="font-weight-bold">Age: </span><span th:text="*{age}"></span></li>
+                                <li><span class="font-weight-bold">Email: </span><span th:text="*{email}"></span></li>
+                                <li><span class="font-weight-bold">Role(s): </span>
+                                    <span th:each="role, iter : ${loggedUser.authorities}"
+                                          th:text="${role.authority == 'USER' ? 'U' : (role.authority == 'ADMIN' ? 'A' : '')} + ${iter.last ? '' : ' '}"></span>
+                                </li>
+                            </ol>
 
-                                    <div class="modal-header">
-                                        <h3 class="modal-title text-center w-100">Edit your info</h3>
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    </div>
+                            <a class="btn btn-outline-primary" data-toggle="modal"
+                               data-target="#update-modal-logged-user"
+                               href="#">
+                                Edit info
+                            </a>
+                            <div class="modal" id="update-modal-logged-user">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content">
 
-                                    <div class="modal-body">
-                                        <p th:text="'Unfortunately, you are not allowed to directly change your department and salary. ' +
+                                        <div class="modal-header">
+                                            <h3 class="modal-title text-center w-100">Edit your info</h3>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <p th:text="'Unfortunately, you are not allowed to directly change your department and salary. ' +
                                         'If you wish to alter this information, consider getting in touch with ' +
                                         ${loggedUser.isBoardMember() ? 'the shareholders' : 'your superiors'}"></p>
-                                        <form th:action="@{/save-user}" th:object="${loggedUser}" method="post">
-                                            <input type="hidden" th:field="*{id}"/>
+                                            <form th:action="@{/save-user}" th:object="${loggedUser}" method="post">
+                                                <input type="hidden" th:field="*{id}"/>
 
-                                            <div class="form-group">
-                                                <label for="username">Username: </label>
-                                                <input id="username" class="form-control" th:field="*{username}" min="2"
-                                                       max="15" aria-describedby="uu-username-help-block" required/>
-                                                <small id="uu-username-help-block" class="form-text text-muted">
-                                                    2-15 characters
-                                                </small>
-                                            </div>
+                                                <div class="form-group">
+                                                    <label for="username">Username: </label>
+                                                    <input id="username" class="form-control" th:field="*{username}"
+                                                           min="2"
+                                                           max="15" aria-describedby="uu-username-help-block" required/>
+                                                    <small id="uu-username-help-block" class="form-text text-muted">
+                                                        2-15 characters
+                                                    </small>
+                                                </div>
 
-                                            <input type="hidden" th:field="*{password}"/>
+                                                <input type="hidden" th:field="*{password}"/>
 
-                                            <div class="form-group">
-                                                <label for="name">Name: </label>
-                                                <input id="name" class="form-control" th:field="*{name}" min="5"
-                                                        aria-describedby="uu-name-help-block" required/>
-                                                <small id="uu-name-help-block" class="form-text text-muted">
-                                                    5+ characters
-                                                </small>
+                                                <div class="form-group">
+                                                    <label for="name">Name: </label>
+                                                    <input id="name" class="form-control" th:field="*{name}" min="5"
+                                                           aria-describedby="uu-name-help-block" required/>
+                                                    <small id="uu-name-help-block" class="form-text text-muted">
+                                                        5+ characters
+                                                    </small>
 
-                                            </div>
+                                                </div>
 
-                                            <div class="form-group">
-                                                <label for="last-name">Last name: </label>
-                                                <input id="last-name" class="form-control" th:field="*{lastName}" min="2"
-                                                        max="15" aria-describedby="uu-last-name-help-block" required/>
-                                                <small id="uu-last-name-help-block" class="form-text text-muted">
-                                                    2-15 characters
-                                                </small>
-                                            </div>
+                                                <div class="form-group">
+                                                    <label for="last-name">Last name: </label>
+                                                    <input id="last-name" class="form-control" th:field="*{lastName}"
+                                                           min="2"
+                                                           max="15" aria-describedby="uu-last-name-help-block"
+                                                           required/>
+                                                    <small id="uu-last-name-help-block" class="form-text text-muted">
+                                                        2-15 characters
+                                                    </small>
+                                                </div>
 
-                                            <input type="hidden" th:field="*{department}"/>
+                                                <input type="hidden" th:field="*{department}"/>
 
-                                            <input type="hidden" th:field="*{salary}"/>
+                                                <input type="hidden" th:field="*{salary}"/>
 
-                                            <div class="form-group">
-                                                <label for="age">Age: </label>
-                                                <input id="age" class="form-control" th:field="*{age}" min="18"
-                                                       max="127" aria-describedby="uu-age-help-block" required/>
-                                                <small id="uu-age-help-block" class="form-text text-muted">
-                                                    18-127
-                                                </small>
-                                            </div>
+                                                <div class="form-group">
+                                                    <label for="age">Age: </label>
+                                                    <input id="age" class="form-control" th:field="*{age}" min="18"
+                                                           max="127" aria-describedby="uu-age-help-block" required/>
+                                                    <small id="uu-age-help-block" class="form-text text-muted">
+                                                        18-127
+                                                    </small>
+                                                </div>
 
-                                            <div class="form-group">
-                                                <label for="email">Email: </label>
-                                                <input id="email" class="form-control" th:field="*{email}"
-                                                       pattern="[A-Za-z._-]+@[a-z]{1,}\.[a-z]{2,4}"
-                                                       aria-describedby="uu-email-help-block" required/>
-                                                <small id="uu-email-help-block" class="form-text text-muted">
-                                                    Any valid email address
-                                                </small>
-                                            </div>
+                                                <div class="form-group">
+                                                    <label for="email">Email: </label>
+                                                    <input id="email" class="form-control" th:field="*{email}"
+                                                           pattern="[A-Za-z._-]+@[a-z]{1,}\.[a-z]{2,4}"
+                                                           aria-describedby="uu-email-help-block" required/>
+                                                    <small id="uu-email-help-block" class="form-text text-muted">
+                                                        Any valid email address
+                                                    </small>
+                                                </div>
 
-                                            <input type="hidden" th:field="*{enabledByte}"/>
+                                                <input type="hidden" th:field="*{enabledByte}"/>
 
-                                            <input type="hidden" th:name="authorities"
-                                                   th:value="*{#strings.toString(authorities)}"/>
+                                                <input type="hidden" th:name="authorities"
+                                                       th:value="*{#strings.toString(authorities)}"/>
 
-                                            <input class="btn btn-primary d-flex ml-auto" type="submit" value="Submit">
-                                        </form>
+                                                <input class="btn btn-primary d-flex ml-auto" type="submit"
+                                                       value="Submit">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a class="btn btn-outline-secondary" data-toggle="modal"
+                               data-target="#update-password-modal"
+                               href="#">
+                                Change password
+                            </a>
+                            <div class="modal" id="update-password-modal">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h3 class="modal-title text-center w-100">Update your password</h3>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="forms" th:action="@{/save-user(passwordChange=true)}"
+                                                  th:object="${loggedUser}" method="post">
+                                                <input type="hidden" th:field="*{id}"/>
+
+                                                <input type="hidden" th:field="*{username}"/>
+
+                                                <div class="form-group">
+                                                    <label for="password">Your new password: </label>
+                                                    <input id="password" class="form-control" name="password" min="5"
+                                                           aria-describedby="uu-password-help-block" required/>
+                                                    <small id="uu-password-help-block" class="form-text text-muted">
+                                                        5+ characters
+                                                    </small>
+                                                </div>
+
+                                                <input type="hidden" th:field="*{name}"/>
+
+                                                <input type="hidden" th:field="*{lastName}"/>
+
+                                                <input type="hidden" th:field="*{department}"/>
+
+                                                <input type="hidden" th:field="*{salary}"/>
+
+                                                <input type="hidden" th:field="*{age}"/>
+
+                                                <input type="hidden" th:field="*{email}"/>
+
+                                                <input type="hidden" th:field="*{enabledByte}"/>
+
+                                                <input type="hidden" th:name="authorities"
+                                                       th:value="*{#strings.toString(authorities)}"/>
+
+                                                <input class="btn btn-primary d-flex ml-auto" type="submit"
+                                                       value="Submit">
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <a class="btn btn-outline-secondary" data-toggle="modal" data-target="#update-password-modal"
-                           href="#">
-                            Change password
-                        </a>
-                        <div class="modal" id="update-password-modal">
-                            <div class="modal-dialog modal-dialog-centered modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h3 class="modal-title text-center w-100">Update your password</h3>
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form class="forms" th:action="@{/save-user(passwordChange=true)}"
-                                              th:object="${loggedUser}" method="post">
-                                            <input type="hidden" th:field="*{id}"/>
-
-                                            <input type="hidden" th:field="*{username}"/>
-
-                                            <div class="form-group">
-                                                <label for="password">Your new password: </label>
-                                                <input id="password" class="form-control" name="password" min="5"
-                                                       aria-describedby="uu-password-help-block" required/>
-                                                <small id="uu-password-help-block" class="form-text text-muted">
-                                                    5+ characters
-                                                </small>
-                                            </div>
-
-                                            <input type="hidden" th:field="*{name}"/>
-
-                                            <input type="hidden" th:field="*{lastName}"/>
-
-                                            <input type="hidden" th:field="*{department}"/>
-
-                                            <input type="hidden" th:field="*{salary}"/>
-
-                                            <input type="hidden" th:field="*{age}"/>
-
-                                            <input type="hidden" th:field="*{email}"/>
-
-                                            <input type="hidden" th:field="*{enabledByte}"/>
-
-                                            <input type="hidden" th:name="authorities"
-                                                   th:value="*{#strings.toString(authorities)}"/>
-
-                                            <input class="btn btn-primary d-flex ml-auto" type="submit" value="Submit">
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="shadow my-auto" style="width:290px; height:310px">
+                        <div style="background-color:rgba(0,0,0,.03);height:15%">
                         </div>
                     </div>
                 </div>
@@ -468,18 +493,12 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        $("#my-search-input").on("keyup", function () {
-            let value = $(this).val().toLowerCase();
-            $("#table-body tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
-        });
-    });
-</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="/script.js"></script>
+
 <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->
 <!--        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
 <!--        crossorigin="anonymous"></script>-->
