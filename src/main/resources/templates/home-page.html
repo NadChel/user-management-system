@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="icon" href="/favicon.ico">
     <title>Home Page</title>
 </head>
 <body>
-<div class="navbar py-0 mb-3 text-light bg-secondary shadow">
+<div class="navbar py-0 mb-3 text-light bg-dark shadow">
     <div class="nav-item">
         <div class="navbar-brand">
             <strong th:text="${loggedUser.username}"></strong>
@@ -98,7 +100,7 @@
                                                     <p class="text-left" th:text="'For the sake of privacy, you are only allowed to change the user\'s department ' +
                                                         'and salary. If you think ' + ${user.name} + '\'s personal info needs to be altered, please request them to do so'"></p>
 
-                                                    <form th:action="@{/save-user}" th:object="${user}" method="post">
+                                                    <form action="/save-user" th:object="${user}" method="post">
                                                         <input type="hidden" name="id" th:value="${user.id}">
 
                                                         <input type="hidden" name="username"
@@ -164,8 +166,7 @@
                                         </div>
                                     </div>
 
-
-                                    <a th:href="${user.isEnabled() ? '/admin/disable-user?username=' + user.username : '/admin/enable-user?username=' + user.username}"
+                                    <a href="#"
                                        th:class="'btn mx-1 ' + ${user.isEnabled() ? 'btn-outline-warning' : 'btn-outline-success'}"
                                        th:text="${user.isEnabled() ? 'Disable' : 'Enable'}"></a>
 
@@ -188,8 +189,7 @@
                                                     <p>This action may not be easily reversed</p>
 
                                                     <a class="btn btn-danger d-flex ml-auto" style="width:max-content"
-                                                       th:href="@{/admin/delete-user(username=${user.username})}">I am
-                                                        sure</a>
+                                                       href="#" data-dismiss="modal">I am sure</a>
                                                 </div>
 
                                             </div>
@@ -217,7 +217,7 @@
 
                             <div class="form-group">
                                 <label for="nu-password">Password: </label>
-                                <input id="nu-password" class="form-control" th:field="*{password}" type="text"
+                                <input id="nu-password" class="form-control" th:field="*{password}" type="password"
                                        minlength="5" aria-describedby="password-help-block" required/>
                                 <small id="password-help-block" class="form-text text-muted">
                                     5+ characters

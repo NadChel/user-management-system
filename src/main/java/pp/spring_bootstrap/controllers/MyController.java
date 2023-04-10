@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pp.spring_bootstrap.models.User;
 import pp.spring_bootstrap.service.UserRoleService;
 
-// проверка
-
 @Controller
 public class MyController {
     private final UserRoleService service;
