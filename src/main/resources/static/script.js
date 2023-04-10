@@ -13,19 +13,18 @@ $(document).ready(function () {
     $('form').on('submit', async function (event) {
         event.preventDefault();
 
-        let formData = $(this).serialize();
         let user = {
-            id: formData.id,
-            username: formData.username,
-            password: formData.password,
-            name: formData.name,
-            lastName: formData.lastName,
-            department: formData.department,
-            salary: formData.salary,
-            age: formData.age,
-            email: formData.email,
-            enabledByte: formData.enabledByte,
-            authorities: formData.authorities
+            id: $('input[name=id]').val(),
+            username: $('input[name=username]').val(),
+            password: $('input[name=password]').val(),
+            name: $('input[name=name]').val(),
+            lastName: $('input[name=lastName]').val(),
+            department: $('input[name=department]').val(),
+            salary: $('input[name=salary]').val(),
+            age: $('input[name=age]').val(),
+            email: $('input[name=email]').val(),
+            enabledByte: $('input[name=enabledByte]').val(),
+            authorities: $('input[name=authorities]').val()
         };
 
         await fetch(`/users`, {
