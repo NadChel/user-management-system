@@ -16,28 +16,34 @@ $(document).ready(function () {
         console.log('authorities: ' + $(this).find('input[name=authorities]').val());
 
         let user = {
-            id: $(this).find('input[name=id]').val(),
-            username: $(this).find('input[name=username]').val(),
-            password: $(this).find('input[name=password]').val(),
-            name: $(this).find('input[name=name]').val(),
-            lastName: $(this).find('input[name=lastName]').val(),
-            department: $(this).find('select[name=department]').val(),
-            salary: $(this).find('input[name=salary]').val(),
-            age: $(this).find('input[name=age]').val(),
-            email: $(this).find('input[name=email]').val(),
-            enabledByte: $(this).find('input[name=enabledByte]').val(),
-            authorities: JSON.parse($(this).find('input[name=authorities]').val())
+            id: $(this).find('[name=id]').val(),
+            username: $(this).find('[name=username]').val(),
+            password: $(this).find('[name=password]').val(),
+            name: $(this).find('[name=name]').val(),
+            lastName: $(this).find('[name=lastName]').val(),
+            department: $(this).find('[name=department]').val(),
+            salary: $(this).find('[name=salary]').val(),
+            age: $(this).find('[name=age]').val(),
+            email: $(this).find('[name=email]').val(),
+            enabledByte: $(this).find('[name=enabledByte]').val(),
+            authorities: JSON.parse($(this).find('[name=authorities]').val())
         };
+
+        let passwordChange = $(this).find('input[name=password]')
+            .attr('type') !== 'hidden';
 
         await fetch(`/users`, {
             method: 'PUT',
             headers: {
                 ...getCsrfHeaders(),
                 'Content-Type': 'application/json',
+                'password_change': `${passwordChange}`
             },
             body: JSON.stringify(user)
         });
 
+        $(this).closest('.modal').modal('hide');
+        $('.modal').modal()
     });
 });
 
@@ -50,7 +56,7 @@ $(document).ready(function () {
             method: 'PATCH',
             headers: {
                 ...getCsrfHeaders(),
-                'patch_type' : 'disable'
+                'patch_type': 'disable'
             }
         });
 
@@ -70,7 +76,7 @@ $(document).ready(function () {
             method: 'PATCH',
             headers: {
                 ...getCsrfHeaders(),
-                'patch_type' : 'enable'
+                'patch_type': 'enable'
             }
         });
 

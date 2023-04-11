@@ -1,5 +1,6 @@
 package pp.spring_bootstrap.controllers;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import pp.spring_bootstrap.models.User;
 import pp.spring_bootstrap.service.UserRoleService;
@@ -10,8 +11,11 @@ import java.util.List;
 public class MyRestController {
     private final UserRoleService service;
 
-    public MyRestController(UserRoleService employeeService) {
+    private final PasswordEncoder passwordEncoder;
+
+    public MyRestController(UserRoleService employeeService, PasswordEncoder passwordEncoder) {
         this.service = employeeService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/users")
@@ -36,8 +40,13 @@ public class MyRestController {
     }
 
     @PutMapping("/users")
-    public User updateEmployee(@RequestBody User user) {
+    public User updateEmployee(@RequestBody User user, @RequestHeader String password_change) {
         System.out.println("user in the handler: " + user);
+        System.out.println("passwordChange: " + password_change);
+        System.out.println("Boolean.parseBoolean(passwordChange): " + Boolean.parseBoolean(password_change));
+        if (Boolean.parseBoolean(password_change)) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         service.save(user);
         return user;
     }

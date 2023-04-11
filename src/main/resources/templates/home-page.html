@@ -289,13 +289,13 @@
                                 <div class="form-check form-check-inline">
                                     <label for="user" class="form-check-label mr-2">User: </label>
                                     <input id="user" class="form-check-input" th:name="authorities" type="radio"
-                                           th:value="*{#strings.toString(authorities)}"
+                                           th:value="${@jsonify.apply(newUser.authorities)}"
                                            checked/>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <label for="admin" class="form-check-label mr-2">User + Admin: </label>
                                     <input id="admin" class="form-check-input" th:name="authorities" type="radio"
-                                           th:value="${#strings.toString(adminRoleSet)}"/>
+                                           th:value="${@jsonify.apply(adminRoleSet)}"/>
                                 </div>
                             </fieldset>
 
@@ -418,7 +418,7 @@
                                                 <input type="hidden" th:field="*{enabledByte}"/>
 
                                                 <input type="hidden" th:name="authorities"
-                                                       th:value="*{#strings.toString(authorities)}"/>
+                                                       th:value="${@jsonify.apply(loggedUser.authorities)}"/>
 
                                                 <input class="btn btn-primary d-flex ml-auto" type="submit"
                                                        value="Submit">
@@ -449,8 +449,8 @@
 
                                                 <div class="form-group">
                                                     <label for="password">Your new password: </label>
-                                                    <input id="password" class="form-control" name="password" min="5"
-                                                           aria-describedby="uu-password-help-block" required/>
+                                                    <input id="password" class="form-control" name="password" type="password"
+                                                           min="5" aria-describedby="uu-password-help-block" required/>
                                                     <small id="uu-password-help-block" class="form-text text-muted">
                                                         5+ characters
                                                     </small>
@@ -471,7 +471,7 @@
                                                 <input type="hidden" th:field="*{enabledByte}"/>
 
                                                 <input type="hidden" th:name="authorities"
-                                                       th:value="*{#strings.toString(authorities)}"/>
+                                                       th:value="${@jsonify.apply(loggedUser.authorities)}"/>
 
                                                 <input class="btn btn-primary d-flex ml-auto" type="submit"
                                                        value="Submit">
