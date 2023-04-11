@@ -156,7 +156,7 @@
                                                                th:value="${user.enabledByte}">
 
                                                         <input type="hidden" th:name="authorities"
-                                                               th:value="${#strings.toString(user.authorities)}"/>
+                                                               th:value="${@jsonify.apply(user.authorities)}"/>
 
                                                         <input class="btn btn-primary d-flex ml-auto" type="submit"
                                                                value="Submit">

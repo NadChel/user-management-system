@@ -37,6 +37,7 @@ public class MyRestController {
 
     @PutMapping("/users")
     public User updateEmployee(@RequestBody User user) {
+        System.out.println("user in the handler: " + user);
         service.save(user);
         return user;
     }

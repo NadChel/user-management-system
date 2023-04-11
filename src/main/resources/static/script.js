@@ -12,19 +12,21 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('form').on('submit', async function (event) {
         event.preventDefault();
+        console.log('username: ' + $(this).find('input[name=username]').val())
+        console.log('authorities: ' + $(this).find('input[name=authorities]').val());
 
         let user = {
-            id: $('input[name=id]').val(),
-            username: $('input[name=username]').val(),
-            password: $('input[name=password]').val(),
-            name: $('input[name=name]').val(),
-            lastName: $('input[name=lastName]').val(),
-            department: $('input[name=department]').val(),
-            salary: $('input[name=salary]').val(),
-            age: $('input[name=age]').val(),
-            email: $('input[name=email]').val(),
-            enabledByte: $('input[name=enabledByte]').val(),
-            authorities: $('input[name=authorities]').val()
+            id: $(this).find('input[name=id]').val(),
+            username: $(this).find('input[name=username]').val(),
+            password: $(this).find('input[name=password]').val(),
+            name: $(this).find('input[name=name]').val(),
+            lastName: $(this).find('input[name=lastName]').val(),
+            department: $(this).find('select[name=department]').val(),
+            salary: $(this).find('input[name=salary]').val(),
+            age: $(this).find('input[name=age]').val(),
+            email: $(this).find('input[name=email]').val(),
+            enabledByte: $(this).find('input[name=enabledByte]').val(),
+            authorities: JSON.parse($(this).find('input[name=authorities]').val())
         };
 
         await fetch(`/users`, {
