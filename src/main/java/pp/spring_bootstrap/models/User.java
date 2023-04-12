@@ -46,8 +46,11 @@ public class User implements UserDetails {
     private Set<Role> authorities;
 
     public User() {
+    }
+
+    public User(Role role) {
         this.enabledByte = 1;
-        this.authorities = new HashSet<>(List.of(new Role("USER")));
+        this.authorities = new HashSet<>(List.of(role));
     }
 
     @Override

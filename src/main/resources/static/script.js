@@ -29,11 +29,13 @@ $(document).ready(function () {
             authorities: JSON.parse($(this).find('[name=authorities]').val())
         };
 
+        let method = $(this).closest('div').attr('id') === 'add-new-user' ? 'POST' : 'PUT';
+
         let passwordChange = $(this).find('input[name=password]')
             .attr('type') !== 'hidden';
 
         await fetch(`/users`, {
-            method: 'PUT',
+            method: `${method}`,
             headers: {
                 ...getCsrfHeaders(),
                 'Content-Type': 'application/json',
@@ -50,6 +52,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('td a.btn-outline-warning').on('click', async function () {
         let username = $(this).closest('tr').children().eq(0).text();
+        console.log(`username in disable event handler: ${username}`);
 
         await fetch(`/users/${username}`, {
             method: 'PATCH',
@@ -70,6 +73,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('td a.btn-outline-success').on('click', async function () {
         let username = $(this).closest('tr').children().eq(0).text();
+        console.log(`username in enable event handler: ${username}`);
 
         await fetch(`/users/${username}`, {
             method: 'PATCH',

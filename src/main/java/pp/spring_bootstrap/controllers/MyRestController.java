@@ -35,13 +35,15 @@ public class MyRestController {
 
     @PostMapping("/users")
     public User addEmployee(@RequestBody User user) {
+        System.out.println("user in the post handler: " + user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         service.save(user);
         return user;
     }
 
     @PutMapping("/users")
     public User updateEmployee(@RequestBody User user, @RequestHeader String password_change) {
-        System.out.println("user in the handler: " + user);
+        System.out.println("user in the put handler: " + user);
         System.out.println("passwordChange: " + password_change);
         System.out.println("Boolean.parseBoolean(passwordChange): " + Boolean.parseBoolean(password_change));
         if (Boolean.parseBoolean(password_change)) {

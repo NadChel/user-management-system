@@ -26,7 +26,7 @@ public class MyController {
     public String home(Model model, Authentication authentication) {
         model.addAttribute("loggedUser", service.getLoggedUser(authentication))
                 .addAttribute("users", service.getAllExceptLoggedUser(authentication))
-                .addAttribute("newUser", new User())
+                .addAttribute("newUser", new User(service.getRoleByName("USER")))
                 .addAttribute("adminRoleSet", service.getAdminRoleSet());
         return "home-page";
     }
