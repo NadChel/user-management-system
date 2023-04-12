@@ -8,7 +8,7 @@ $(document).ready(function () {
     });
 });
 
-// апдейт
+// апдейт/добавление
 $(document).ready(function () {
     $('form').on('submit', async function (event) {
         event.preventDefault();
@@ -50,7 +50,7 @@ $(document).ready(function () {
 
 // disable
 $(document).ready(function () {
-    $('td a.btn-outline-warning').on('click', async function () {
+    $('tbody').on('click', 'td a.btn-outline-warning', async function () {
         let username = $(this).closest('tr').children().eq(0).text();
         console.log(`username in disable event handler: ${username}`);
 
@@ -71,7 +71,7 @@ $(document).ready(function () {
 
 // enable
 $(document).ready(function () {
-    $('td a.btn-outline-success').on('click', async function () {
+    $('tbody').on('click', 'td a.btn-outline-success', async function () {
         let username = $(this).closest('tr').children().eq(0).text();
         console.log(`username in enable event handler: ${username}`);
 
