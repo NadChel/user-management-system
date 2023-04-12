@@ -85,9 +85,9 @@
 
                                 <td class="btn-group btn-group-sm">
                                     <a class="btn btn-outline-primary" data-toggle="modal"
-                                       th:data-target="${'#updateModal' + user.username}">Update
+                                       th:data-target="${'#update-modal-' + user.username}">Update
                                     </a>
-                                    <div class="modal" th:id="${'updateModal' + user.username}">
+                                    <div class="modal" th:id="${'update-modal-' + user.username}">
                                         <div class="modal-dialog modal-lg modal-dialog-centered">
                                             <div class="modal-content">
 
@@ -174,10 +174,10 @@
                                        th:text="${user.isEnabled() ? 'Disable' : 'Enable'}"></a>
 
                                     <a class="btn btn-outline-danger" data-toggle="modal"
-                                       th:data-target="${'#deleteModal' + user.username}">Delete
+                                       th:data-target="${'#delete-modal-' + user.username}">Delete
                                     </a>
 
-                                    <div class="modal" th:id="${'deleteModal' + user.username}">
+                                    <div class="modal" th:id="${'delete-modal-' + user.username}">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
 
@@ -323,28 +323,28 @@
                         </div>
                         <div class="card-body">
                             <ol>
-                                <li><span class="font-weight-bold">Username: </span><span th:text="*{username}"></span>
+                                <li><strong>Username: </strong><span th:text="*{username}"></span>
                                 </li>
-                                <li><span class="font-weight-bold">Name: </span><span th:text="*{name}"></span></li>
-                                <li><span class="font-weight-bold">Lastname: </span><span th:text="*{lastName}"></span>
+                                <li><strong>Name: </strong><span th:text="*{name}"></span></li>
+                                <li><strong>Lastname: </strong><span th:text="*{lastName}"></span>
                                 </li>
-                                <li><span class="font-weight-bold">Department: </span><span
+                                <li><strong>Department: </strong><span
                                         th:text="*{department}"></span>
                                 </li>
-                                <li><span class="font-weight-bold">Salary: </span><span th:text="*{salary}"></span></li>
-                                <li><span class="font-weight-bold">Age: </span><span th:text="*{age}"></span></li>
-                                <li><span class="font-weight-bold">Email: </span><span th:text="*{email}"></span></li>
-                                <li><span class="font-weight-bold">Role(s): </span>
+                                <li><strong>Salary: </strong><span th:text="*{salary}"></span></li>
+                                <li><strong>Age: </strong><span th:text="*{age}"></span></li>
+                                <li><strong>Email: </strong><span th:text="*{email}"></span></li>
+                                <li><strong>Role(s): </strong>
                                     <span th:each="role, iter : ${loggedUser.authorities}"
                                           th:text="${role.authority == 'USER' ? 'U' : (role.authority == 'ADMIN' ? 'A' : '')} + ${iter.last ? '' : ' '}"></span>
                                 </li>
                             </ol>
 
                             <a class="btn btn-outline-primary" data-toggle="modal"
-                               data-target="#update-modal-logged-user">
+                               data-target="#update-info-modal">
                                 Edit info
                             </a>
-                            <div class="modal" id="update-modal-logged-user">
+                            <div class="modal" id="update-info-modal">
                                 <div class="modal-dialog modal-lg modal-dialog-centered">
                                     <div class="modal-content">
 
@@ -362,7 +362,7 @@
 
                                                 <div class="form-group">
                                                     <label for="username">Username: </label>
-                                                    <input id="username" class="form-control" name="value"
+                                                    <input id="username" class="form-control" name="username"
                                                            th:value="*{username}"
                                                            min="2"
                                                            max="15" aria-describedby="uu-username-help-block" required/>
@@ -423,7 +423,7 @@
 
                                                 <input type="hidden" name="enabledByte" th:value="*{enabledByte}"/>
 
-                                                <input type="hidden" th:name="authorities"
+                                                <input type="hidden" name="authorities"
                                                        th:value="${@jsonify.apply(loggedUser.authorities)}"/>
 
                                                 <input class="btn btn-primary d-flex ml-auto" type="submit"

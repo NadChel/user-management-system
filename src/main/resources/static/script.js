@@ -29,12 +29,14 @@ $(document).ready(function () {
             authorities: JSON.parse($(this).find('[name=authorities]').val())
         };
 
+        console.log('user: ' + JSON.stringify(user));
+
         let method = $(this).closest('div').attr('id') === 'add-new-user' ? 'POST' : 'PUT';
 
         let passwordChange = $(this).find('input[name=password]')
             .attr('type') !== 'hidden';
 
-        await fetch(`/users`, {
+        const response = await fetch(`/users`, {
             method: `${method}`,
             headers: {
                 ...getCsrfHeaders(),
@@ -43,6 +45,78 @@ $(document).ready(function () {
             },
             body: JSON.stringify(user)
         });
+
+        let usersAuthorities = '';
+
+        for (let i = 0; i < user.authorities; i++) {
+            if (i !== 0) usersAuthorities += ', ';
+            usersAuthorities += user.authorities[i][authority].charAt(0).toUpperCase();
+        }
+
+        console.log('response.ok: ' + response.ok);
+
+        if (response.ok) {
+
+            console.log(`add-new-user: ${$(this).closest('div').attr('id') === 'add-new-user'}`);
+            console.log(`update-info-modal: ${$(this).closest('.modal').attr('id') === 'update-info-modal'}`);
+            console.log(`update-modal-: ${$(this).closest('.modal').attr('id').startsWith('update-modal-')}`);
+
+            if ($(this).closest('div').attr('id') === 'add-new-user') {
+                $('tbody').append(
+                    `<tr>
+                         <td>
+                             ${user.username}
+                         </td>
+                         <td>
+                             ${user.name}
+                         </td>
+                         <td>
+                             ${user.lastName}
+                         </td>
+                         <td>
+                             ${user.department}
+                         </td>                     
+                         <td>
+                             ${user.salary}
+                         </td>                     
+                         <td>
+                             ${user.age}
+                         </td>                     
+                         <td>
+                             ${user.email}
+                         </td>
+                         <td>
+                             ${user.enabledByte}
+                         </td>                     
+                         <td>
+                             ${usersAuthorities}
+                         </td>
+                    </tr>`
+                );
+            } else if ($(this).closest('.modal').attr('id') === 'update-info-modal') {
+                const listItems = $(this).closest('.card-body').find('ol').children();
+
+                console.log(`listItems: ${JSON.stringify(listItems)}`);
+
+                listItems.eq(0).find('span').text(user.username);
+                listItems.eq(1).find('span').text(user.name);
+                listItems.eq(2).find('span').text(user.lastName);
+                listItems.eq(5).find('span').text(user.age);
+                listItems.eq(6).find('span').text(user.email);
+            } else if ($(this).closest('.modal').attr('id').startsWith('update-modal-')) {
+                const children = $(this).closest('tr').children();
+
+                console.log('children.eq(0).text(): ' + children.eq(0).text());
+
+                children.eq(0).text(user.username);
+                children.eq(1).text(user.name);
+                children.eq(2).text(user.lastName);
+                children.eq(3).text(user.department);
+                children.eq(4).text(user.salary);
+                children.eq(5).text(user.age);
+                children.eq(6).text(user.email);
+            }
+        }
 
         $(this).closest('.modal').modal('hide');
     });
@@ -54,7 +128,7 @@ $(document).ready(function () {
         let username = $(this).closest('tr').children().eq(0).text();
         console.log(`username in disable event handler: ${username}`);
 
-        await fetch(`/users/${username}`, {
+        const response = await fetch(`/users/${username}`, {
             method: 'PATCH',
             headers: {
                 ...getCsrfHeaders(),
@@ -62,10 +136,12 @@ $(document).ready(function () {
             }
         });
 
-        $(this).removeClass('btn-outline-warning')
-            .addClass('btn-outline-success')
-            .text('Enable')
-            .parent().prev().text('-');
+        if (response.ok) {
+            $(this).removeClass('btn-outline-warning')
+                .addClass('btn-outline-success')
+                .text('Enable')
+                .parent().prev().text('-');
+        }
     });
 });
 
@@ -75,7 +151,7 @@ $(document).ready(function () {
         let username = $(this).closest('tr').children().eq(0).text();
         console.log(`username in enable event handler: ${username}`);
 
-        await fetch(`/users/${username}`, {
+        const response = await fetch(`/users/${username}`, {
             method: 'PATCH',
             headers: {
                 ...getCsrfHeaders(),
@@ -83,10 +159,12 @@ $(document).ready(function () {
             }
         });
 
-        $(this).removeClass('btn-outline-success')
-            .addClass('btn-outline-warning')
-            .text('Disable')
-            .parent().prev().text('+');
+        if (response.ok) {
+            $(this).removeClass('btn-outline-success')
+                .addClass('btn-outline-warning')
+                .text('Disable')
+                .parent().prev().text('+');
+        }
     });
 });
 
@@ -96,11 +174,14 @@ $(document).ready(function () {
         let row = $(this).closest('tr');
         let username = row.children().eq(0).text();
 
-        await fetch(`/users/${username}`, {
+        const response = await fetch(`/users/${username}`, {
             method: 'DELETE',
             headers: getCsrfHeaders()
         });
-        row.remove();
+
+        if (response.ok) {
+            row.remove();
+        }
     });
 });
 
