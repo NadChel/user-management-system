@@ -26,7 +26,7 @@ $(document).ready(function () {
             age: $(this).find('[name=age]').val(),
             email: $(this).find('[name=email]').val(),
             enabledByte: $(this).find('[name=enabledByte]').val(),
-            authorities: JSON.parse($(this).find('[name=authorities]').val())
+            authorities: JSON.parse($(this).find('[name=authorities]:checked').val())
         };
 
         console.log('user: ' + JSON.stringify(user));
@@ -105,10 +105,21 @@ $(document).ready(function () {
                          </td>
                     </tr>`);
 
-                $(this).find('[type=submit]').removeClass('btn-primary')
+                const submitButton = $(this).find('[type=submit]');
+
+                submitButton.removeClass('btn-primary')
                     .addClass('btn-success')
                     .attr('value', 'User added!')
-                    .attr('type', 'button');
+                    .attr('type', 'button')
+                    .click(() => $('[href="#users-table"]').tab('show'));
+
+                setTimeout(function () {
+                    submitButton.removeClass('btn-success')
+                        .addClass('btn-primary')
+                        .attr('value', 'Submit')
+                        .attr('type', 'submit')
+                        .off('click');
+                }, 9000);
 
             } else if ($(this).closest('.modal').attr('id') === 'update-info-modal') {
                 const listItems = $(this).closest('.card-body').find('ol').children();

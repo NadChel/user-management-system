@@ -290,13 +290,13 @@
                                 <legend class="w-auto px-2">Privileges</legend>
                                 <div class="form-check form-check-inline">
                                     <label for="user" class="form-check-label mr-2">User: </label>
-                                    <input id="user" class="form-check-input" th:name="authorities" type="radio"
+                                    <input id="user" class="form-check-input" name="authorities" type="radio"
                                            th:value="${@jsonify.apply(newUser.authorities)}"
                                            checked/>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <label for="admin" class="form-check-label mr-2">User + Admin: </label>
-                                    <input id="admin" class="form-check-input" th:name="authorities" type="radio"
+                                    <input id="admin" class="form-check-input" name="authorities" type="radio"
                                            th:value="${@jsonify.apply(adminRoleSet)}"/>
                                 </div>
                             </fieldset>
