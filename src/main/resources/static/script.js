@@ -26,7 +26,8 @@ $(document).ready(function () {
             age: $(this).find('[name=age]').val(),
             email: $(this).find('[name=email]').val(),
             enabledByte: $(this).find('[name=enabledByte]').val(),
-            authorities: JSON.parse($(this).find('[name=authorities]:checked').val())
+            authorities: JSON.parse($(this).find('[name=authorities]:checked').val() ||
+                                        $(this).find('[name=authorities]').val())
         };
 
         console.log('user: ' + JSON.stringify(user));
@@ -61,7 +62,7 @@ $(document).ready(function () {
                 console.log(`user.authorities: ${JSON.stringify(user.authorities)}`);
                 for (let i = 0; i < user.authorities.length; i++) {
                     console.log(`i: ${i};  user.authorities[i]: ${JSON.stringify(user.authorities[i])}`);
-                    if (i !== 0) usersAuthorities += ', ';
+                    if (i !== 0) usersAuthorities += ' ';
                     usersAuthorities += user.authorities[i]['authority'].charAt(0);
                 }
 
@@ -107,6 +108,8 @@ $(document).ready(function () {
 
                 const submitButton = $(this).find('[type=submit]');
 
+                const form = $(this);
+
                 submitButton.removeClass('btn-primary')
                     .addClass('btn-success')
                     .attr('value', 'User added!')
@@ -119,6 +122,7 @@ $(document).ready(function () {
                         .attr('value', 'Submit')
                         .attr('type', 'submit')
                         .off('click');
+                    form.trigger('reset');
                 }, 9000);
 
             } else if ($(this).closest('.modal').attr('id') === 'update-info-modal') {
