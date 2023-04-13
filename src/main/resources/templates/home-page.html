@@ -51,6 +51,7 @@
                 </ul>
                 <div class="tab-content">
                     <div id="users-table" class="tab-pane container mw-100 active table-responsive">
+                        <label class="sr-only" for="my-search-input">A search box for filtering users</label>
                         <input class="form-control my-2" id="my-search-input" type="text" placeholder="Search...">
 
                         <table class="table table-hover text-center">
@@ -102,7 +103,7 @@
                                                     <p class="text-left" th:text="'For the sake of privacy, you are only allowed to change the user\'s department ' +
                                                         'and salary. If you think ' + ${user.name} + '\'s personal info needs to be altered, please request them to do so'"></p>
 
-                                                    <form action="/save-user" th:object="${user}" method="post">
+                                                    <form>
                                                         <input type="hidden" name="id" th:value="${user.id}">
 
                                                         <input type="hidden" name="username"
@@ -119,22 +120,21 @@
                                                         <div class="form-group">
                                                             <label th:for="${user.username + '-department'}">Department: </label>
                                                             <select th:id="${user.username + '-department'}"
-                                                                    class="form-control"
-                                                                    name="department">
+                                                                    class="form-control" name="department">
                                                                 <option th:selected="${user.department == 'accounting'}"
-                                                                        th:value="accounting">Accounting
+                                                                        value="accounting">Accounting
                                                                 </option>
                                                                 <option th:selected="${user.department == 'sales'}"
-                                                                        th:value="sales">Sales
+                                                                        value="sales">Sales
                                                                 </option>
                                                                 <option th:selected="${user.department == 'information technology'}"
-                                                                        th:value="'information technology'">IT
+                                                                        value="information technology">IT
                                                                 </option>
                                                                 <option th:selected="${user.department == 'human resources'}"
-                                                                        th:value="'human resources'">HR
+                                                                        value="human resources">HR
                                                                 </option>
                                                                 <option th:selected="${user.department == 'board of directors'}"
-                                                                        th:value="'board of directors'">Board
+                                                                        value="board of directors">Board
                                                                 </option>
                                                             </select>
                                                         </div>
@@ -205,16 +205,15 @@
                     </div>
                     <div id="add-new-user" class="tab-pane container m-1">
                         <h4 class="display-4">Fill in the forms</h4>
-                        <form th:action="@{/save-user(passwordChange=true)}" th:object="${newUser}"
-                              method="post">
+                        <form th:object="${newUser}">
                             <input type="hidden" name="id" th:value="*{id}">
 
                             <div class="form-group">
                                 <label for="nu-username">Username: </label>
-                                <input id="nu-username" class="form-control" name="username" type="text"
+                                <input id="nu-username" class="form-control" name="username" type="text" pattern="\w+"
                                        minlength="2" maxlength="15" aria-describedby="username-help-block" required>
                                 <small id="username-help-block" class="form-text text-muted">
-                                    2-15 characters
+                                    2-15 characters. Only letters, digits, and underscores are allowed
                                 </small>
                             </div>
 
@@ -285,7 +284,7 @@
                                 </small>
                             </div>
 
-                            <input type="hidden" name="enabledByte" th:value="*{id}"/>
+                            <input type="hidden" name="enabledByte" th:value="*{enabledByte}"/>
 
                             <fieldset class="p-2 mb-3">
                                 <legend class="w-auto px-2">Privileges</legend>
@@ -357,17 +356,16 @@
                                             <p th:text="'Unfortunately, you are not allowed to directly change your department and salary. ' +
                                         'If you wish to alter this information, consider getting in touch with ' +
                                         ${loggedUser.isBoardMember() ? 'the shareholders' : 'your superiors'}"></p>
-                                            <form th:action="@{/save-user}" th:object="${loggedUser}" method="post">
+                                            <form>
                                                 <input type="hidden" name="id" th:value="*{id}"/>
 
                                                 <div class="form-group">
                                                     <label for="username">Username: </label>
                                                     <input id="username" class="form-control" name="username"
-                                                           th:value="*{username}"
-                                                           min="2"
+                                                           th:value="*{username}" pattern="\w+" min="2"
                                                            max="15" aria-describedby="uu-username-help-block" required/>
                                                     <small id="uu-username-help-block" class="form-text text-muted">
-                                                        2-15 characters
+                                                        2-15 characters. Only letters, digits, and underscores are allowed
                                                     </small>
                                                 </div>
 
@@ -446,8 +444,7 @@
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
                                         <div class="modal-body">
-                                            <form class="forms" th:action="@{/save-user(passwordChange=true)}"
-                                                  th:object="${loggedUser}" method="post">
+                                            <form>
                                                 <input type="hidden" name="id" th:value="*{id}"/>
 
                                                 <input type="hidden" name="username" th:value="*{username}"/>

@@ -46,22 +46,31 @@ $(document).ready(function () {
             body: JSON.stringify(user)
         });
 
-        let usersAuthorities = '';
-
-        for (let i = 0; i < user.authorities; i++) {
-            if (i !== 0) usersAuthorities += ', ';
-            usersAuthorities += user.authorities[i][authority].charAt(0).toUpperCase();
-        }
-
         console.log('response.ok: ' + response.ok);
 
         if (response.ok) {
 
             console.log(`add-new-user: ${$(this).closest('div').attr('id') === 'add-new-user'}`);
             console.log(`update-info-modal: ${$(this).closest('.modal').attr('id') === 'update-info-modal'}`);
-            console.log(`update-modal-: ${$(this).closest('.modal').attr('id').startsWith('update-modal-')}`);
+            console.log(`update-modal-: ${$(this).closest('.modal').attr('id') && 
+                                        $(this).closest('.modal').attr('id').startsWith('update-modal-')}`);
 
             if ($(this).closest('div').attr('id') === 'add-new-user') {
+                let usersAuthorities = '';
+
+                console.log(`user.authorities: ${JSON.stringify(user.authorities)}`);
+                for (let i = 0; i < user.authorities.length; i++) {
+                    console.log(`i: ${i};  user.authorities[i]: ${JSON.stringify(user.authorities[i])}`);
+                    if (i !== 0) usersAuthorities += ', ';
+                    usersAuthorities += user.authorities[i]['authority'].charAt(0);
+                }
+
+                // let buttons = $('td.btn-group').html();
+                //
+                // buttons.replace(/(?<=(data-target|id)=".+modal-)\w+(?=")/g, user.username)
+                //     .replace(/(?<=Edit ).+(?=<)/g, `${user.name} ${user.lastName} (${user.username})`)
+                //     .replace(/(?<=If you think ).+(?= personal)/g, `${user.name}'s`);
+
                 $('tbody').append(
                     `<tr>
                          <td>
@@ -86,13 +95,21 @@ $(document).ready(function () {
                              ${user.email}
                          </td>
                          <td>
-                             ${user.enabledByte}
-                         </td>                     
-                         <td>
                              ${usersAuthorities}
+                         </td> 
+                         <td>
+                             ${user.enabledByte !== 0 ? '+' : '-'}
                          </td>
-                    </tr>`
-                );
+                         <td>
+                             <a class="btn btn-primary" href="/">Refresh to see the buttons</a>
+                         </td>
+                    </tr>`);
+
+                $(this).find('[type=submit]').removeClass('btn-primary')
+                    .addClass('btn-success')
+                    .attr('value', 'User added!')
+                    .attr('type', 'button');
+
             } else if ($(this).closest('.modal').attr('id') === 'update-info-modal') {
                 const listItems = $(this).closest('.card-body').find('ol').children();
 
