@@ -8,12 +8,14 @@ $(document).ready(function () {
     });
 });
 
-// апдейт/добавление
+// add/update
 $(document).ready(function () {
-    $('form').on('submit', async function (event) {
+    $('body').on('submit', 'form', async function (event) {
         event.preventDefault();
         console.log('username: ' + $(this).find('input[name=username]').val())
-        console.log('authorities: ' + $(this).find('input[name=authorities]').val());
+        console.log('authorities of $(this): ' + $(this).find('input[name=authorities]').val());
+        console.log('authorities of $(event.currentTarget): ' + $(event.currentTarget).find('input[name=authorities]').val());
+        console.log('authorities of $(event.target): ' + $(event.target).find('input[name=authorities]').val());
 
         let user = {
             id: $(this).find('[name=id]').val(),
@@ -27,7 +29,7 @@ $(document).ready(function () {
             email: $(this).find('[name=email]').val(),
             enabledByte: $(this).find('[name=enabledByte]').val(),
             authorities: JSON.parse($(this).find('[name=authorities]:checked').val() ||
-                                        $(this).find('[name=authorities]').val())
+                $(this).find('[name=authorities]').val())
         };
 
         console.log('user: ' + JSON.stringify(user));
@@ -37,7 +39,7 @@ $(document).ready(function () {
         let passwordChange = $(this).find('input[name=password]')
             .attr('type') !== 'hidden';
 
-        const response = await fetch(`/users`, {
+        const response = await fetch('/users', {
             method: `${method}`,
             headers: {
                 ...getCsrfHeaders(),
@@ -47,14 +49,16 @@ $(document).ready(function () {
             body: JSON.stringify(user)
         });
 
+        const data = await response.json();
+
         console.log('response.ok: ' + response.ok);
 
         if (response.ok) {
 
             console.log(`add-new-user: ${$(this).closest('div').attr('id') === 'add-new-user'}`);
             console.log(`update-info-modal: ${$(this).closest('.modal').attr('id') === 'update-info-modal'}`);
-            console.log(`update-modal-: ${$(this).closest('.modal').attr('id') && 
-                                        $(this).closest('.modal').attr('id').startsWith('update-modal-')}`);
+            console.log(`update-modal-: ${$(this).closest('.modal').attr('id') &&
+            $(this).closest('.modal').attr('id').startsWith('update-modal-')}`);
 
             if ($(this).closest('div').attr('id') === 'add-new-user') {
                 let usersAuthorities = '';
@@ -66,43 +70,134 @@ $(document).ready(function () {
                     usersAuthorities += user.authorities[i]['authority'].charAt(0);
                 }
 
-                // let buttons = $('td.btn-group').html();
-                //
-                // buttons.replace(/(?<=(data-target|id)=".+modal-)\w+(?=")/g, user.username)
-                //     .replace(/(?<=Edit ).+(?=<)/g, `${user.name} ${user.lastName} (${user.username})`)
-                //     .replace(/(?<=If you think ).+(?= personal)/g, `${user.name}'s`);
-
                 $('tbody').append(
                     `<tr>
-                         <td>
-                             ${user.username}
-                         </td>
-                         <td>
-                             ${user.name}
-                         </td>
-                         <td>
-                             ${user.lastName}
-                         </td>
-                         <td>
-                             ${user.department}
-                         </td>                     
-                         <td>
-                             ${user.salary}
-                         </td>                     
-                         <td>
-                             ${user.age}
-                         </td>                     
-                         <td>
-                             ${user.email}
-                         </td>
-                         <td>
-                             ${usersAuthorities}
-                         </td> 
-                         <td>
-                             ${user.enabledByte !== 0 ? '+' : '-'}
-                         </td>
-                         <td>
-                             <a class="btn btn-primary" href="/">Refresh to see the buttons</a>
+                         <td>${user.username}</td>
+                         <td>${user.name}</td>
+                         <td>${user.lastName}</td>
+                         <td>${user.department}</td>                     
+                         <td>${user.salary}</td>                     
+                         <td>${user.age}</td>                     
+                         <td>${user.email}</td>
+                         <td>${usersAuthorities}</td> 
+                         <td>+</td>
+                         <td class="btn-group btn-group-sm">
+                            <a class="btn btn-outline-primary" data-toggle="modal"
+                               data-target="${'#update-modal-' + user.username}">Update
+                            </a>
+                            <div class="modal" id="${'update-modal-' + user.username}">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <h3 class="modal-title text-center w-100">
+                                                ${'Edit ' + user.name + ' ' + user.lastName + ' (' + user.username + ')'}
+                                            </h3>
+                                            <button type="button" class="close" data-dismiss="modal">&times;
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body text-left">
+                                            <p class="text-left">
+                                                For the sake of privacy, you are only allowed to change the user's department
+                                                and salary. If you think ${user.name}'s personal info needs to be altered, please request them to do so
+                                            </p>
+
+                                            <form>
+                                                <input type="hidden" name="id" value="${data.id}">
+
+                                                <input type="hidden" name="username"
+                                                       value="${user.username}">
+
+                                                <input type="hidden" name="password"
+                                                       value="${data.password}">
+
+                                                <input type="hidden" name="name" value="${user.name}">
+
+                                                <input type="hidden" name="lastName"
+                                                       value="${user.lastName}">
+
+                                                <div class="form-group">
+                                                    <label for="${user.username + '-department'}">Department: </label>
+                                                    <select id="${user.username + '-department'}"
+                                                            class="form-control" name="department">
+                                                        <option ${user.department === 'accounting' ? 'selected' : ''}
+                                                                value="accounting">Accounting
+                                                        </option>
+                                                        <option ${user.department === 'sales' ? 'selected' : ''}
+                                                                value="sales">Sales
+                                                        </option>
+                                                        <option ${user.department === 'information technology' ? 'selected' : ''}
+                                                                value="information technology">IT
+                                                        </option>
+                                                        <option ${user.department === 'human resources' ? 'selected' : ''}
+                                                                value="human resources">HR
+                                                        </option>
+                                                        <option ${user.department === 'board of directors' ? 'selected' : ''}
+                                                                value="board of directors">Board
+                                                        </option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="${user.username + '-salary'}">Salary: </label>
+                                                    <input id="${user.username + '-salary'}"
+                                                           class="form-control" name="salary"
+                                                           value="${user.salary}"
+                                                           min="100000" aria-describedby="au-salary-help-block"
+                                                           required/>
+                                                    <small id="au-salary-help-block"
+                                                           class="form-text text-muted">
+                                                        100,000+
+                                                    </small>
+                                                </div>
+
+                                                <input type="hidden" name="age" value="${user.age}">
+
+                                                <input type="hidden" name="email" value="${user.email}">
+
+                                                <input type="hidden" name="enabledByte"
+                                                       value="${user.enabledByte}">
+
+                                                <input type="hidden" name="authorities"
+                                                       value='${JSON.stringify(user.authorities)}'/>
+
+                                                <input class="btn btn-primary d-flex ml-auto" type="submit"
+                                                       value="Submit">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a class="btn mx-1 btn-outline-warning">Disable</a>
+
+                            <a class="btn btn-outline-danger" data-toggle="modal"
+                               data-target="${'#delete-modal-' + user.username}">Delete
+                            </a>
+
+                            <div class="modal" id="${'delete-modal-' + user.username}">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <h3 class="modal-title text-center w-100">
+                                                Are you sure you want to delete ${user.name} ${user.lastName} (${user.username})?
+                                            </h3>
+                                            <button type="button" class="close" data-dismiss="modal">&times;
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <p>This action may not be easily reversed</p>
+
+                                            <a class="btn btn-danger d-flex ml-auto" data-dismiss="modal">I am sure
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                          </td>
                     </tr>`);
 
@@ -200,9 +295,9 @@ $(document).ready(function () {
     });
 });
 
-// удаление юзера
+// delete
 $(document).ready(function () {
-    $('.modal-body a.btn-danger').on('click', async function () {
+    $('tbody').on('click', '.modal-body a.btn-danger', async function () {
         let row = $(this).closest('tr');
         let username = row.children().eq(0).text();
 

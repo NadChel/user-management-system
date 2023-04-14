@@ -26,6 +26,7 @@ public class MyRestController {
     @PatchMapping("/users/{username}")
     public void disableEnableUserByUsername(@PathVariable String username,
                                       @RequestHeader String patch_type) {
+        System.out.println("username in disableEnable handler: " + username);
         if (patch_type.equals("disable")) {
             service.disableUserByUsername(username);
         } else if (patch_type.equals("enable")) {
@@ -36,7 +37,11 @@ public class MyRestController {
     @PostMapping("/users")
     public User addEmployee(@RequestBody User user) {
         System.out.println("user in the post handler: " + user);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        String userPassBeforeEncoding = user.getPassword();
+        System.out.println("userPassBeforeEncoding: " + userPassBeforeEncoding);
+        String encodedPass = passwordEncoder.encode(userPassBeforeEncoding);
+        System.out.println("encodedPass: " + encodedPass);
+        user.setPassword(encodedPass);
         service.save(user);
         return user;
     }
