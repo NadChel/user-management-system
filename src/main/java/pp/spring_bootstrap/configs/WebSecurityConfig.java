@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import javax.sql.DataSource;
 
@@ -31,6 +32,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and().formLogin()
+                .successHandler(successHandler())
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login");
         return http.build();
     }
@@ -50,5 +52,11 @@ public class WebSecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        return (httpServletRequest, httpServletResponse, authentication) ->
+                httpServletResponse.sendRedirect("/");
     }
 }

@@ -26,12 +26,11 @@ VALUES ('USER'),
 
 INSERT IGNORE INTO user_role (user_id, username, role_id, role)
 SELECT users.id, users.username, roles.id, roles.role
-FROM (
-         VALUES
-             ROW('mickey_m', 'USER'),
-             ROW('donald_d', 'USER'),
-             ROW('scrooge_m', 'USER'),
-             ROW('scrooge_m', 'ADMIN')
-     ) AS user_to_role (username, role)
-         JOIN users ON users.username = user_to_role.username
-         JOIN roles ON roles.role = user_to_role.role;
+FROM (VALUES
+          ROW ('mickey_m', 'USER'),
+          ROW ('donald_d', 'USER'),
+          ROW ('scrooge_m', 'USER'),
+          ROW('scrooge_m', 'ADMIN'))
+     AS user_to_role (username, role)
+     JOIN users ON users.username = user_to_role.username
+     JOIN roles ON roles.role = user_to_role.role;
