@@ -41,7 +41,7 @@
         </div>
         <div class="col-sm-11 p-0 tab-content">
             <div id="admin-tab" th:class="'tab-pane container p-0 mw-100' + ${loggedUser.isAdmin() ? ' active' : ''}">
-                <ul class="nav nav-tabs">
+                <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#users-table">All Users</a>
                     </li>
@@ -69,7 +69,7 @@
                                 <th scope="col">Operations</th>
                             </tr>
                             </thead>
-                            <tbody id="table-body">
+                            <tbody>
                             <tr th:each="user: ${users}">
                                 <td th:text="${user.username}"></td>
                                 <td th:text="${user.name}"></td>
@@ -191,10 +191,10 @@
                                                 <div class="modal-body">
                                                     <p>This action may not be easily reversed</p>
 
-                                                    <a class="btn btn-danger d-flex ml-auto" data-dismiss="modal">I am sure
+                                                    <a class="btn btn-danger d-flex ml-auto" data-dismiss="modal">I am
+                                                        sure
                                                     </a>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -365,7 +365,8 @@
                                                            th:value="*{username}" pattern="\w+" min="2"
                                                            max="15" aria-describedby="uu-username-help-block" required/>
                                                     <small id="uu-username-help-block" class="form-text text-muted">
-                                                        2-15 characters. Only letters, digits, and underscores are allowed
+                                                        2-15 characters. Only letters, digits, and underscores are
+                                                        allowed
                                                     </small>
                                                 </div>
 
@@ -385,9 +386,8 @@
                                                 <div class="form-group">
                                                     <label for="last-name">Last name: </label>
                                                     <input id="last-name" class="form-control" name="lastName"
-                                                           th:value="*{lastName}"
-                                                           min="2"
-                                                           max="15" aria-describedby="uu-last-name-help-block"
+                                                           th:value="*{lastName}" min="2" max="15"
+                                                           aria-describedby="uu-last-name-help-block"
                                                            required/>
                                                     <small id="uu-last-name-help-block" class="form-text text-muted">
                                                         2-15 characters
@@ -401,8 +401,8 @@
                                                 <div class="form-group">
                                                     <label for="age">Age: </label>
                                                     <input id="age" class="form-control" name="age" th:value="*{age}"
-                                                           min="18"
-                                                           max="127" aria-describedby="uu-age-help-block" required/>
+                                                           min="18" max="127" aria-describedby="uu-age-help-block"
+                                                           required/>
                                                     <small id="uu-age-help-block" class="form-text text-muted">
                                                         18-127
                                                     </small>
@@ -452,8 +452,8 @@
                                                 <div class="form-group">
                                                     <label for="password">Your new password: </label>
                                                     <input id="password" class="form-control" name="password"
-                                                           type="password"
-                                                           min="5" aria-describedby="uu-password-help-block" required/>
+                                                           type="password" min="5" aria-describedby="uu-password-help-block"
+                                                           required/>
                                                     <small id="uu-password-help-block" class="form-text text-muted">
                                                         5+ characters
                                                     </small>
@@ -473,7 +473,7 @@
 
                                                 <input type="hidden" name="enabledByte" th:value="*{enabledByte}"/>
 
-                                                <input type="hidden" th:name="authorities"
+                                                <input type="hidden" name="authorities"
                                                        th:value="${@jsonify.apply(loggedUser.authorities)}"/>
 
                                                 <input class="btn btn-primary d-flex ml-auto" type="submit"
@@ -501,14 +501,5 @@
 
 <script src="/script.js"></script>
 
-<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->
-<!--        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
-<!--        crossorigin="anonymous"></script>-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"-->
-<!--        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"-->
-<!--        crossorigin="anonymous"></script>-->
-<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"-->
-<!--        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"-->
-<!--        crossorigin="anonymous"></script>-->
 </body>
 </html>

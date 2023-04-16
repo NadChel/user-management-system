@@ -40,8 +40,8 @@ public class WebSecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
-        userDetailsManager.setUsersByUsernameQuery("SELECT username, password, enabled FROM users_db.users where username = ?");
-        userDetailsManager.setAuthoritiesByUsernameQuery("SELECT username, role FROM users_db.user_role WHERE username = ?");
+        userDetailsManager.setUsersByUsernameQuery("SELECT username, password, enabled FROM users where username = ?");
+        userDetailsManager.setAuthoritiesByUsernameQuery("SELECT username, role FROM user_role WHERE username = ?");
 
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsManager);

@@ -30,7 +30,10 @@ FROM (VALUES
           ROW ('mickey_m', 'USER'),
           ROW ('donald_d', 'USER'),
           ROW ('scrooge_m', 'USER'),
-          ROW('scrooge_m', 'ADMIN'))
+          ROW('scrooge_m', 'ADMIN'),
+          ROW ('minerva_m', 'USER'),
+          ROW ('goofus_d', 'USER'),
+          ROW ('daisy_d', 'USER'))
      AS user_to_role (username, role)
      JOIN users ON users.username = user_to_role.username
      JOIN roles ON roles.role = user_to_role.role;

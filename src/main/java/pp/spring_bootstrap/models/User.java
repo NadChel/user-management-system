@@ -16,25 +16,24 @@ import java.util.*;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column // я считаю, что лучше проставлять @Column даже если атрибуты не меняются
     private long id;
     @Column(nullable = false, unique = true)
     private String username;
     @Column(nullable = false)
     private String password;
-    @Column
+    @Column(nullable = false)
     private String name;
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
-    @Column
+    @Column(nullable = false)
     private String department;
     @Column
     private int salary;
-    @Column
+    @Column(nullable = false)
     private byte age;
     @Column
     private String email;
-    @Column(name = "enabled")
+    @Column(name = "enabled", nullable = false)
     private byte enabledByte;
     @ManyToMany
     @JoinTable(name = "user_role",
