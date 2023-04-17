@@ -30,17 +30,18 @@
         <div class="col-sm-1 px-2">
             <ul class="nav nav-pills flex-column" role="tablist">
                 <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
-                    <a th:class="'nav-link' + ${loggedUser.isAdmin() ? ' active' : ''}" data-toggle="pill"
+                    <a th:class="'nav-link text-center' + ${loggedUser.isAdmin() ? ' active' : ''}" data-toggle="pill"
                        href="#admin-tab">Admin</a>
                 </li>
                 <li class="nav-item">
-                    <a th:class="'nav-link' + ${!loggedUser.isAdmin() ? ' active' : ''}" data-toggle="pill"
+                    <a th:class="'nav-link text-center' + ${!loggedUser.isAdmin() ? ' active' : ''}" data-toggle="pill"
                        href="#user-tab">User</a>
                 </li>
             </ul>
+            <img id="shuffler" src="/next.png" alt="an arrow" />
         </div>
-        <div class="col-sm-11 p-0 tab-content">
-            <div id="admin-tab" th:class="'tab-pane container p-0 mw-100' + ${loggedUser.isAdmin() ? ' active' : ''}">
+        <div class="col-sm-11 tab-content">
+            <div id="admin-tab" th:class="'tab-pane' + ${loggedUser.isAdmin() ? ' active' : ''}">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#users-table">All Users</a>
@@ -50,7 +51,7 @@
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div id="users-table" class="tab-pane container mw-100 active table-responsive">
+                    <div id="users-table" class="tab-pane active table-responsive">
                         <label class="sr-only" for="my-search-input">A search box for filtering users</label>
                         <input class="form-control my-2" id="my-search-input" type="text" placeholder="Search...">
 
@@ -100,7 +101,7 @@
                                                 </div>
 
                                                 <div class="modal-body text-left">
-                                                    <p class="text-left" th:text="'For the sake of privacy, you are only allowed to change the user\'s department ' +
+                                                    <p th:text="'For the sake of privacy, you are only allowed to change the user\'s department ' +
                                                         'and salary. If you think ' + ${user.name} + '\'s personal info needs to be altered, please request them to do so'"></p>
 
                                                     <form>
@@ -203,7 +204,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id="add-new-user" class="tab-pane container m-1">
+                    <div id="add-new-user" class="tab-pane">
                         <h4 class="display-4">Fill in the forms</h4>
                         <form th:object="${newUser}">
                             <input type="hidden" name="id" th:value="*{id}">
@@ -306,7 +307,7 @@
                     </div>
                 </div>
             </div>
-            <div id="user-tab" th:class="'tab-pane container p-0 mx-auto' + ${!loggedUser.isAdmin() ? ' active' : ''}"
+            <div id="user-tab" th:class="'tab-pane' + ${!loggedUser.isAdmin() ? ' active' : ''}"
                  th:object="${loggedUser}">
                 <h4 class="display-4 text-center mb-4">Your employee card</h4>
                 <div class="d-flex justify-content-around">

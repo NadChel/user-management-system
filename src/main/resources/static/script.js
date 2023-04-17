@@ -8,6 +8,16 @@ $(document).ready(function () {
     });
 });
 
+// shuffler
+$(document).ready(function () {
+    $('#shuffler').on('click', function () {
+        $('.col-sm-1').toggleClass('order-1');
+        $('.nav-tabs').toggleClass('justify-content-end');
+        $('#my-search-input, #add-new-user, .modal-body, .form-control').toggleClass('text-right');
+        $(this).toggleClass('rotate');
+    });
+});
+
 // add/update
 $(document).ready(function () {
     $('body').on('submit', 'form', async function (event) {
