@@ -27,7 +27,7 @@
 </div>
 <div class="container mb-5 mw-100">
     <div class="row justify-content-center">
-        <div class="col-sm-1 px-2">
+        <div class="col-md-1 px-2">
             <ul class="nav nav-pills flex-column" role="tablist">
                 <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
                     <a th:class="'nav-link text-center' + ${loggedUser.isAdmin() ? ' active' : ''}" data-toggle="pill"
@@ -40,7 +40,7 @@
             </ul>
             <img id="shuffler" src="/next.png" alt="an arrow" />
         </div>
-        <div class="col-sm-11 tab-content">
+        <div class="col-md-11 tab-content">
             <div id="admin-tab" th:class="'tab-pane' + ${loggedUser.isAdmin() ? ' active' : ''}">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
@@ -249,6 +249,7 @@
                             <div class="form-group">
                                 <label for="nu-departments">Department: </label>
                                 <select id="nu-departments" class="form-control" name="department" required>
+                                    <option class="dropdown-item" disabled selected>Select a department</option>
                                     <option class="dropdown-item" value="accounting">Accounting</option>
                                     <option class="dropdown-item" value="sales">Sales</option>
                                     <option class="dropdown-item" value="information technology">IT</option>
@@ -340,7 +341,7 @@
                                 </li>
                             </ol>
 
-                            <a class="btn btn-outline-primary" data-toggle="modal"
+                            <a class="btn btn-outline-primary my-1" data-toggle="modal"
                                data-target="#update-info-modal">
                                 Edit info
                             </a>

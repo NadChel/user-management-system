@@ -11,7 +11,7 @@ $(document).ready(function () {
 // shuffler
 $(document).ready(function () {
     $('#shuffler').on('click', function () {
-        $('.col-sm-1').toggleClass('order-1');
+        $('.col-md-1').toggleClass('order-1');
         $('.nav-tabs').toggleClass('justify-content-end');
         $('#my-search-input, #add-new-user, .modal-body, .form-control').toggleClass('text-right');
         $(this).toggleClass('rotate');
