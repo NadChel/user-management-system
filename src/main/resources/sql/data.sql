@@ -1,3 +1,5 @@
+# sample rows
+
 INSERT INTO users(username, password, name, last_name, department, salary, age, email, enabled)
 SELECT *
 FROM (VALUES ('mickey_m', '$2y$10$i5SJc2KAriHGn7Dz2rRQHuQ3JfBxlzMaPVKP1YdEJCukryDY9NbVC',
@@ -16,24 +18,26 @@ FROM (VALUES ('mickey_m', '$2y$10$i5SJc2KAriHGn7Dz2rRQHuQ3JfBxlzMaPVKP1YdEJCukry
               'Goofus', 'Dawg', 'information technology', 190000, 91, 'goofy@gmail.com', 1),
 
              ('daisy_d', '$2a$10$mYfix0eIUMIWeTz6kM5.vuI/1demwzsvnY/mSgp5W6rcQVjc3Eyny',
-              'Daisy', 'Duck', 'human resources', 165000, 86, 'daisy@outlook.com', 1)) sample_rows
+              'Daisy', 'Duck', 'human resources', 165000, 86, 'daisy@outlook.com', 1))
+
+         AS sample_rows
 
 WHERE NOT EXISTS(SELECT NULL FROM users);
+
+# required roles
 
 INSERT IGNORE INTO roles(role)
 VALUES ('USER'),
        ('ADMIN');
 
-INSERT IGNORE INTO user_role (user_id, username, role_id, role)
+# filling the join table
+
+INSERT IGNORE INTO user_role
 SELECT users.id, users.username, roles.id, roles.role
-FROM (VALUES
-          ROW ('mickey_m', 'USER'),
-          ROW ('donald_d', 'USER'),
-          ROW ('scrooge_m', 'USER'),
-          ROW('scrooge_m', 'ADMIN'),
-          ROW ('minerva_m', 'USER'),
-          ROW ('goofus_d', 'USER'),
-          ROW ('daisy_d', 'USER'))
-     AS user_to_role (username, role)
-     JOIN users ON users.username = user_to_role.username
-     JOIN roles ON roles.role = user_to_role.role;
+FROM users
+         JOIN roles ON roles.role = 'USER';
+
+INSERT IGNORE INTO user_role
+SELECT users.id, users.username, roles.id, roles.role
+FROM users
+         JOIN roles ON roles.role = 'ADMIN' ORDER BY users.id LIMIT 1;
