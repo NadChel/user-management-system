@@ -2,6 +2,7 @@ package pp.spring_bootstrap.service;
 
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import pp.spring_bootstrap.models.Role;
 import pp.spring_bootstrap.models.User;
 
@@ -9,13 +10,10 @@ import java.util.List;
 import java.util.Set;
 
 public interface UserRoleService {
-    List<User> getAll();
 
     List<User> getAllExceptLoggedUser(Authentication authentication);
 
     User getLoggedUser(Authentication authentication);
-
-    User getByUsername(String username);
 
     void save(User user);
 
@@ -28,4 +26,6 @@ public interface UserRoleService {
     Role getRoleByName(String name);
 
     Set<Role> getAdminRoleSet();
+
+    void encodePassword(User user, PasswordEncoder passwordEncoder);
 }

@@ -2,8 +2,9 @@ package pp.spring_bootstrap.models;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,12 +12,13 @@ import java.util.*;
 
 @Entity
 @Table(name = "users")
-@Data
-@EqualsAndHashCode // чтобы исключить roleList c помощью @EqualsAndHashCode.Exclude
+@Getter
+@Setter
+@EqualsAndHashCode
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column // я считаю, что лучше проставлять @Column даже если атрибуты не меняются
+    @Column
     private long id;
     @Column(nullable = false, unique = true)
     private String username;
@@ -46,8 +48,11 @@ public class User implements UserDetails {
     private Set<Role> authorities;
 
     public User() {
+    }
+
+    public User(Role role) {
         this.enabledByte = 1;
-        this.authorities = new HashSet<>(List.of(new Role("USER")));
+        this.authorities = new HashSet<>(List.of(role));
     }
 
     @Override

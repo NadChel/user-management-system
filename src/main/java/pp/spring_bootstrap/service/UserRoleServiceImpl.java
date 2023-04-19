@@ -2,6 +2,7 @@ package pp.spring_bootstrap.service;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pp.spring_bootstrap.dao.RoleDao;
@@ -26,11 +27,6 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public List<User> getAll() {
-        return userDao.findAll();
-    }
-
-    @Override
     public List<User> getAllExceptLoggedUser(Authentication authentication) {
         List<User> allUsers = userDao.findAll();
         allUsers.remove(getLoggedUser(authentication));
@@ -42,11 +38,6 @@ public class UserRoleServiceImpl implements UserRoleService {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String loggedUserName = userDetails.getUsername();
         return userDao.findByUsername(loggedUserName);
-    }
-
-    @Override
-    public User getByUsername(String username) {
-        return userDao.findByUsername(username);
     }
 
     @Override
@@ -84,5 +75,11 @@ public class UserRoleServiceImpl implements UserRoleService {
     public Set<Role> getAdminRoleSet() {
         return new HashSet<>(List.of(roleDao.findByAuthority("USER"),
                 roleDao.findByAuthority("ADMIN")));
+    }
+
+    @Override
+    public void encodePassword(User user, PasswordEncoder passwordEncoder) {
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
     }
 }

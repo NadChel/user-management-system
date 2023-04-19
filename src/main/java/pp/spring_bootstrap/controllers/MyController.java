@@ -26,7 +26,7 @@ public class MyController {
     public String home(Model model, Authentication authentication) {
         model.addAttribute("loggedUser", service.getLoggedUser(authentication))
                 .addAttribute("users", service.getAllExceptLoggedUser(authentication))
-                .addAttribute("newUser", new User())
+                .addAttribute("newUser", new User(service.getRoleByName("USER")))
                 .addAttribute("adminRoleSet", service.getAdminRoleSet());
         return "home-page";
     }
@@ -53,14 +53,9 @@ public class MyController {
     public String saveUser(@ModelAttribute User user,
                            @RequestParam(defaultValue = "false") String passwordChange) {
         if (Boolean.parseBoolean(passwordChange)) {
-            encodePassword(user);
+            service.encodePassword(user, passwordEncoder);
         }
         service.save(user);
         return "redirect:/";
-    }
-
-    private void encodePassword(User user) {
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
     }
 }
