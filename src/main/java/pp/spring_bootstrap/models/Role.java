@@ -13,7 +13,7 @@ import java.util.StringJoiner;
 @Table(name = "roles")
 @Getter
 @Setter
-@EqualsAndHashCode // чтобы исключить userList c помощью @EqualsAndHashCode.Exclude
+@EqualsAndHashCode
 public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

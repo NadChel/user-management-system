@@ -14,7 +14,7 @@ import java.util.*;
 @Table(name = "users")
 @Getter
 @Setter
-@EqualsAndHashCode // чтобы исключить roleList c помощью @EqualsAndHashCode.Exclude
+@EqualsAndHashCode
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
