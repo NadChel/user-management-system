@@ -1,5 +1,3 @@
-# https://www.baeldung.com/spring-boot-data-sql-and-schema-sql
-
 CREATE TABLE users
 (
     id         INT          NOT NULL AUTO_INCREMENT,

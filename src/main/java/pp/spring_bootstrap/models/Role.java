@@ -1,8 +1,9 @@
 package pp.spring_bootstrap.models;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Set;
@@ -10,7 +11,8 @@ import java.util.StringJoiner;
 
 @Entity
 @Table(name = "roles")
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode // чтобы исключить userList c помощью @EqualsAndHashCode.Exclude
 public class Role implements GrantedAuthority {
     @Id

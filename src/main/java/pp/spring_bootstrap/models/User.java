@@ -2,8 +2,9 @@ package pp.spring_bootstrap.models;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,7 +12,8 @@ import java.util.*;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode // чтобы исключить roleList c помощью @EqualsAndHashCode.Exclude
 public class User implements UserDetails {
     @Id
