@@ -1,11 +1,11 @@
 package pp.spring_bootstrap.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import pp.spring_bootstrap.models.User;
 import pp.spring_bootstrap.service.UserRoleService;
-
-import java.util.List;
 
 @RestController
 public class MyRestController {
@@ -16,11 +16,6 @@ public class MyRestController {
     public MyRestController(UserRoleService employeeService, PasswordEncoder passwordEncoder) {
         this.service = employeeService;
         this.passwordEncoder = passwordEncoder;
-    }
-
-    @GetMapping("/users")
-    public List<User> showAllUsers() {
-        return service.getAll();
     }
 
     @PatchMapping("/users/{username}")
@@ -34,21 +29,21 @@ public class MyRestController {
     }
 
     @PostMapping("/users")
-    public User addUser(@RequestBody User user) {
+    public ResponseEntity<User> addUser(@RequestBody User user) {
         String userPassBeforeEncoding = user.getPassword();
         String encodedPass = passwordEncoder.encode(userPassBeforeEncoding);
         user.setPassword(encodedPass);
         service.save(user);
-        return user;
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @PutMapping("/users")
-    public User updateUser(@RequestBody User user, @RequestHeader String password_change) {
+    public ResponseEntity<User> updateUser(@RequestBody User user, @RequestHeader String password_change) {
         if (Boolean.parseBoolean(password_change)) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         service.save(user);
-        return user;
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{username}")
