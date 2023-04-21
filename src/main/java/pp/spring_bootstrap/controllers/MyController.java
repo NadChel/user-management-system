@@ -5,22 +5,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import pp.spring_bootstrap.models.User;
-import pp.spring_bootstrap.service.UserRoleService;
+import pp.spring_bootstrap.service.RoleService;
+import pp.spring_bootstrap.service.UserService;
 
 @Controller
 public class MyController {
-    private final UserRoleService service;
+    private final UserService userService;
 
-    public MyController(UserRoleService service) {
-        this.service = service;
+    private final RoleService roleService;
+
+    public MyController(UserService userService, RoleService roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping("/")
     public String home(Model model, Authentication authentication) {
-        model.addAttribute("loggedUser", service.getLoggedUser(authentication))
-                .addAttribute("users", service.getAllExceptLoggedUser(authentication))
-                .addAttribute("newUser", new User(service.getRoleByName("USER")))
-                .addAttribute("adminRoleSet", service.getAdminRoleSet());
+        model.addAttribute("loggedUser", userService.getLoggedUser(authentication))
+                .addAttribute("users", userService.getAllExceptLoggedUser(authentication))
+                .addAttribute("newUser", new User(roleService.getRoleByName("USER")))
+                .addAttribute("adminRoleSet", roleService.getAdminRoleSet());
         return "home-page";
     }
 }

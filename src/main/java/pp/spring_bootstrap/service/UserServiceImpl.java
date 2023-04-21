@@ -4,30 +4,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pp.spring_bootstrap.dao.RoleDao;
 import pp.spring_bootstrap.dao.UserDao;
-import pp.spring_bootstrap.models.Role;
 import pp.spring_bootstrap.models.User;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Transactional(readOnly = true)
-public class UserRoleServiceImpl implements UserRoleService {
+public class UserServiceImpl implements UserService {
     private final UserDao userDao;
 
-    private final RoleDao roleDao;
 
-    public UserRoleServiceImpl(UserDao userDao, RoleDao roleDao) {
+    public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
-        this.roleDao = roleDao;
-    }
-
-    @Override
-    public List<User> getAll() {
-        return userDao.findAll();
     }
 
     @Override
@@ -42,11 +31,6 @@ public class UserRoleServiceImpl implements UserRoleService {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String loggedUserName = userDetails.getUsername();
         return userDao.findByUsername(loggedUserName);
-    }
-
-    @Override
-    public User getByUsername(String username) {
-        return userDao.findByUsername(username);
     }
 
     @Override
@@ -75,14 +59,4 @@ public class UserRoleServiceImpl implements UserRoleService {
         userDao.deleteByUsername(username);
     }
 
-    @Override
-    public Role getRoleByName(String name) {
-        return roleDao.findByAuthority(name);
-    }
-
-    @Override
-    public Set<Role> getAdminRoleSet() {
-        return new HashSet<>(List.of(roleDao.findByAuthority("USER"),
-                roleDao.findByAuthority("ADMIN")));
-    }
 }
