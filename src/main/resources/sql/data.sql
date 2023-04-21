@@ -33,13 +33,13 @@ VALUES ('USER'),
 -- filling the @JoinTable: all users must be USERs
 
 INSERT IGNORE INTO user_role
-SELECT users.id, users.username, roles.id, roles.role
+SELECT users.id, roles.id
 FROM users
          JOIN roles ON roles.role = 'USER';
 
 -- filling the @JoinTable: the first user must also be an ADMIN
 
 INSERT IGNORE INTO user_role
-SELECT users.id, users.username, roles.id, roles.role
+SELECT users.id, roles.id
 FROM users
          JOIN roles ON roles.role = 'ADMIN' ORDER BY users.id LIMIT 1;

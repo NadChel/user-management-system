@@ -22,7 +22,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllExceptLoggedUser(Authentication authentication) {
         List<User> allUsers = userDao.findAll();
-        allUsers.remove(getLoggedUser(authentication));
+        User loggedUser = getLoggedUser(authentication);
+        allUsers.remove(loggedUser);
         return allUsers;
     }
 

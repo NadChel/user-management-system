@@ -21,6 +21,19 @@ import javax.sql.DataSource;
 public class WebSecurityConfig {
     private final DataSource dataSource;
 
+    private static final String USERS_BY_USERNAME_QUERY = """
+            SELECT username, password, enabled
+            FROM users where username = ?
+            """;
+
+    private static final String AUTHORITIES_BY_USERNAME_QUERY = """
+            SELECT users.username, roles.role
+            FROM user_role
+            JOIN users ON user_role.user_id = users.id
+            JOIN roles ON user_role.role_id = roles.id
+            WHERE users.username = ?
+            """;
+
     public WebSecurityConfig(DataSource dataSource) {
         this.dataSource = dataSource;
     }
@@ -40,8 +53,8 @@ public class WebSecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource);
-        userDetailsManager.setUsersByUsernameQuery("SELECT username, password, enabled FROM users where username = ?");
-        userDetailsManager.setAuthoritiesByUsernameQuery("SELECT username, role FROM user_role WHERE username = ?");
+        userDetailsManager.setUsersByUsernameQuery(USERS_BY_USERNAME_QUERY);
+        userDetailsManager.setAuthoritiesByUsernameQuery(AUTHORITIES_BY_USERNAME_QUERY);
 
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsManager);

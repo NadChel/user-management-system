@@ -23,9 +23,7 @@ CREATE TABLE roles
 CREATE TABLE user_role
 (
     user_id  INT         NOT NULL,
-    username VARCHAR(15) NOT NULL,
     role_id  INT         NOT NULL,
-    role     VARCHAR(15) NOT NULL,
     PRIMARY KEY (user_id, role_id),
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (role_id) REFERENCES roles (id)

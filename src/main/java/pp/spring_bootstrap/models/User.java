@@ -39,10 +39,8 @@ public class User implements UserDetails {
     private byte enabledByte;
     @ManyToMany
     @JoinTable(name = "user_role",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id"),
-                    @JoinColumn(name = "username", referencedColumnName = "username")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id"),
-                    @JoinColumn(name = "role", referencedColumnName = "role")})
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     @EqualsAndHashCode.Exclude
     private Set<Role> authorities;
 
