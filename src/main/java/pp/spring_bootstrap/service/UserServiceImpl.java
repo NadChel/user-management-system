@@ -14,14 +14,13 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
 
-
     public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }
 
     @Override
     public List<User> getAllExceptLoggedUser(String username) {
-        return userDao.findAllByUsernameNot(username);
+        return userDao.findAllExceptLoggedUser(username);
     }
 
     @Override
