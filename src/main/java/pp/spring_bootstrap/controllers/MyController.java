@@ -4,6 +4,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import pp.spring_bootstrap.models.Role;
 import pp.spring_bootstrap.models.User;
 import pp.spring_bootstrap.service.RoleService;
 import pp.spring_bootstrap.service.UserService;
@@ -21,9 +22,13 @@ public class MyController {
 
     @GetMapping("/")
     public String home(Model model, Authentication authentication) {
-        model.addAttribute("loggedUser", userService.getLoggedUser(authentication))
-                .addAttribute("users", userService.getAllExceptLoggedUser(authentication))
-                .addAttribute("newUser", new User(roleService.getRoleByName("USER")))
+        User loggedUser = userService.getLoggedUser(authentication);
+        String loggedUserUsername = loggedUser.getUsername();
+        Role userRole = roleService.getRoleByName("USER");
+
+        model.addAttribute("loggedUser", loggedUser)
+                .addAttribute("users", userService.getAllExceptLoggedUser(loggedUserUsername))
+                .addAttribute("newUser", new User(userRole))
                 .addAttribute("adminRoleSet", roleService.getAdminRoleSet());
         return "home-page";
     }

@@ -6,7 +6,6 @@ import pp.spring_bootstrap.dao.RoleDao;
 import pp.spring_bootstrap.models.Role;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -25,8 +24,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Set<Role> getAdminRoleSet() {
-        return new HashSet<>(List.of(roleDao.findByAuthority("USER"),
-                roleDao.findByAuthority("ADMIN")));
+        return new HashSet<>(roleDao.findByAuthorityOrAuthority("USER", "ADMIN"));
     }
 
 }
