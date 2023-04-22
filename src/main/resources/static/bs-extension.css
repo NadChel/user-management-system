@@ -85,7 +85,7 @@ fieldset {
 }
 
 .dummy-card div:first-of-type {
-    background-color: rgba(0,0,0,.03);
+    background-color: rgba(0, 0, 0, .03);
     height: 15%
 }
 

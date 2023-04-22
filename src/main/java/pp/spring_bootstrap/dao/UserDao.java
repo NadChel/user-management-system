@@ -9,16 +9,17 @@ import java.util.List;
 
 public interface UserDao extends JpaRepository<User, Long> {
     @Query(value = """
-SELECT u
-FROM User u LEFT JOIN FETCH u.authorities
-WHERE u.username != :username
-""")
+            SELECT u
+            FROM User u LEFT JOIN FETCH u.authorities
+            WHERE u.username != :username
+            """)
     List<User> findAllExceptLoggedUser(String username);
+
     @Query(value = """
-SELECT u
-FROM User u LEFT JOIN FETCH u.authorities
-WHERE u.username = :username
-""")
+            SELECT u
+            FROM User u LEFT JOIN FETCH u.authorities
+            WHERE u.username = :username
+            """)
     User findByUsername(String username);
 
     void deleteByUsername(String username);

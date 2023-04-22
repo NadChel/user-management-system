@@ -20,7 +20,7 @@ public class MyRestController {
 
     @PatchMapping("/users/{username}")
     public void disableEnableUserByUsername(@PathVariable String username,
-                                      @RequestHeader String patch_type) {
+                                            @RequestHeader String patch_type) {
         if (patch_type.equals("disable")) {
             userService.disableUserByUsername(username);
         } else if (patch_type.equals("enable")) {
