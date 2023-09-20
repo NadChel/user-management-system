@@ -5,8 +5,8 @@ import pp.spring_bootstrap.models.Role;
 import java.util.Set;
 
 public interface RoleService {
-    Role getRoleByName(String name);
+    Role findRoleByName(String name);
 
-    Set<Role> getAdminRoleSet();
+    Set<Role> findAdminRoleSet();
 
 }

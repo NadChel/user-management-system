@@ -18,13 +18,12 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role getRoleByName(String name) {
+    public Role findRoleByName(String name) {
         return roleDao.findByAuthority(name);
     }
 
     @Override
-    public Set<Role> getAdminRoleSet() {
+    public Set<Role> findAdminRoleSet() {
         return new HashSet<>(roleDao.findByAuthorityOrAuthority("USER", "ADMIN"));
     }
-
 }

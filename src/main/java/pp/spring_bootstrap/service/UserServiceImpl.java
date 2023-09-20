@@ -19,12 +19,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllExceptLoggedUser(String username) {
-        return userDao.findAllExceptLoggedUser(username);
+    public List<User> findAllExceptLoggedUser(String username) {
+        return userDao.findAllExcept(username);
     }
 
     @Override
-    public User getLoggedUser(Authentication authentication) {
+    public User findLoggedUser(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String loggedUserName = userDetails.getUsername();
         return userDao.findByUsername(loggedUserName);

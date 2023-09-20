@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface UserService {
 
-    List<User> getAllExceptLoggedUser(String username);
+    List<User> findAllExceptLoggedUser(String username);
 
-    User getLoggedUser(Authentication authentication);
+    User findLoggedUser(Authentication authentication);
 
     void save(User user);
 

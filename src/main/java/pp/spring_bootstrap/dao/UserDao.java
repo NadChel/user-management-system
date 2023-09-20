@@ -13,7 +13,7 @@ public interface UserDao extends JpaRepository<User, Long> {
             FROM User u LEFT JOIN FETCH u.authorities
             WHERE u.username != :username
             """)
-    List<User> findAllExceptLoggedUser(String username);
+    List<User> findAllExcept(String username);
 
     @Query(value = """
             SELECT u

@@ -22,14 +22,14 @@ public class MyController {
 
     @GetMapping("/")
     public String home(Model model, Authentication authentication) {
-        User loggedUser = userService.getLoggedUser(authentication);
+        User loggedUser = userService.findLoggedUser(authentication);
         String loggedUserUsername = loggedUser.getUsername();
-        Role userRole = roleService.getRoleByName("USER");
+        Role userRole = roleService.findRoleByName("USER");
 
         model.addAttribute("loggedUser", loggedUser)
-                .addAttribute("users", userService.getAllExceptLoggedUser(loggedUserUsername))
+                .addAttribute("users", userService.findAllExceptLoggedUser(loggedUserUsername))
                 .addAttribute("newUser", new User(userRole))
-                .addAttribute("adminRoleSet", roleService.getAdminRoleSet());
+                .addAttribute("adminRoleSet", roleService.findAdminRoleSet());
         return "home-page";
     }
 }
