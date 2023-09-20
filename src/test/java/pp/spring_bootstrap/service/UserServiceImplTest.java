@@ -1,5 +1,6 @@
 package pp.spring_bootstrap.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,76 +21,77 @@ class UserServiceImplTest {
     UserServiceImpl userService;
     @Mock
     UserDao userDao;
-    static final String MICKEY;
-    static final User MICKEY_USER;
-    static final String DAISY;
-    static final User DAISY_USER;
+    String mickey;
+    User mickeyUser;
+    String daisy;
+    User daisyUser;
 
-    static {
-        MICKEY = "mickey";
-        MICKEY_USER = new User();
-        MICKEY_USER.setUsername(MICKEY);
-        MICKEY_USER.setPassword("password");
-        MICKEY_USER.setName("Mickey");
-        MICKEY_USER.setLastName("Mouse");
-        MICKEY_USER.setDepartment("IT");
-        MICKEY_USER.setAge((byte) 100);
+    @BeforeEach
+    void setUp() {
+        mickey = "mickey";
+        mickeyUser = new User();
+        mickeyUser.setUsername(mickey);
+        mickeyUser.setPassword("password");
+        mickeyUser.setName("Mickey");
+        mickeyUser.setLastName("Mouse");
+        mickeyUser.setDepartment("IT");
+        mickeyUser.setAge((byte) 100);
 
-        DAISY = "daisy";
-        DAISY_USER = new User();
-        DAISY_USER.setUsername(DAISY);
-        DAISY_USER.setPassword("password");
-        DAISY_USER.setName("Daisy");
-        DAISY_USER.setLastName("Duck");
-        DAISY_USER.setDepartment("HR");
-        DAISY_USER.setAge((byte) 100);
+        daisy = "daisy";
+        daisyUser = new User();
+        daisyUser.setUsername(daisy);
+        daisyUser.setPassword("password");
+        daisyUser.setName("Daisy");
+        daisyUser.setLastName("Duck");
+        daisyUser.setDepartment("HR");
+        daisyUser.setAge((byte) 100);
     }
 
     @Test
     void findAllExceptLoggedUser() {
-        when(userDao.findAllExcept(MICKEY)).thenReturn(List.of(DAISY_USER));
-        var usernames = userService.findAllExceptLoggedUser(MICKEY).stream().map(User::getUsername).toList();
-        assertThat(usernames).asList().doesNotContain(MICKEY);
-        verify(userDao, times(1)).findAllExcept(MICKEY);
+        when(userDao.findAllExcept(mickey)).thenReturn(List.of(daisyUser));
+        var usernames = userService.findAllExceptLoggedUser(mickey).stream().map(User::getUsername).toList();
+        assertThat(usernames).asList().doesNotContain(mickey);
+        verify(userDao, times(1)).findAllExcept(mickey);
     }
 
     @Test
     void findLoggedUser() {
-        when(userDao.findByUsername(MICKEY)).thenReturn(MICKEY_USER);
+        when(userDao.findByUsername(mickey)).thenReturn(mickeyUser);
         var authenticationMock = mock(Authentication.class);
-        when(authenticationMock.getPrincipal()).thenReturn(MICKEY_USER);
+        when(authenticationMock.getPrincipal()).thenReturn(mickeyUser);
         assertThat(userService.findLoggedUser(authenticationMock))
-                .extracting(User::getUsername).isEqualTo(MICKEY);
-        verify(userDao, times(1)).findByUsername(MICKEY);
+                .extracting(User::getUsername).isEqualTo(mickey);
+        verify(userDao, times(1)).findByUsername(mickey);
     }
 
     @Test
     void save() {
-        userService.save(MICKEY_USER);
-        verify(userDao, times(1)).save(MICKEY_USER);
+        userService.save(mickeyUser);
+        verify(userDao, times(1)).save(mickeyUser);
     }
 
     @Test
     void disableUserByUsername() {
-        MICKEY_USER.setEnabledByte((byte) 1);
-        when(userDao.findByUsername(MICKEY)).thenReturn(MICKEY_USER);
-        userService.disableUserByUsername(MICKEY);
-        assertThat(MICKEY_USER.getEnabledByte()).isEqualTo((byte) 0);
-        verify(userDao, times(1)).findByUsername(MICKEY);
+        mickeyUser.setEnabledByte((byte) 1);
+        when(userDao.findByUsername(mickey)).thenReturn(mickeyUser);
+        userService.disableUserByUsername(mickey);
+        assertThat(mickeyUser.getEnabledByte()).isEqualTo((byte) 0);
+        verify(userDao, times(1)).findByUsername(mickey);
     }
 
     @Test
     void enableUserByUsername() {
-        MICKEY_USER.setEnabledByte((byte) 0);
-        when(userDao.findByUsername(MICKEY)).thenReturn(MICKEY_USER);
-        userService.enableUserByUsername(MICKEY);
-        assertThat(MICKEY_USER.getEnabledByte()).isEqualTo((byte) 1);
-        verify(userDao, times(1)).findByUsername(MICKEY);
+        mickeyUser.setEnabledByte((byte) 0);
+        when(userDao.findByUsername(mickey)).thenReturn(mickeyUser);
+        userService.enableUserByUsername(mickey);
+        assertThat(mickeyUser.getEnabledByte()).isEqualTo((byte) 1);
+        verify(userDao, times(1)).findByUsername(mickey);
     }
 
     @Test
     void deleteUserByUsername() {
-        userService.deleteUserByUsername(MICKEY);
-        verify(userDao, times(1)).deleteByUsername(MICKEY);
+        userService.deleteUserByUsername(mickey);
+        verify(userDao, times(1)).deleteByUsername(mickey);
     }
 }
