@@ -18,6 +18,15 @@ public class MyRestController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @PostMapping("/users")
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        String userPassBeforeEncoding = user.getPassword();
+        String encodedPass = passwordEncoder.encode(userPassBeforeEncoding);
+        user.setPassword(encodedPass);
+        userService.save(user);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
+
     @PatchMapping("/users/{username}")
     public void disableEnableUserByUsername(@PathVariable String username,
                                             @RequestHeader String patch_type) {
@@ -26,15 +35,6 @@ public class MyRestController {
         } else if (patch_type.equals("enable")) {
             userService.enableUserByUsername(username);
         }
-    }
-
-    @PostMapping("/users")
-    public ResponseEntity<User> addUser(@RequestBody User user) {
-        String userPassBeforeEncoding = user.getPassword();
-        String encodedPass = passwordEncoder.encode(userPassBeforeEncoding);
-        user.setPassword(encodedPass);
-        userService.save(user);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @PutMapping("/users")

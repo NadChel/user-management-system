@@ -18,7 +18,6 @@ import pp.spring_bootstrap.service.UserService;
 import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -51,7 +50,7 @@ class MyRestControllerTest {
         mickey.setEnabledByte((byte) 1);
         mickey.setAuthorities(Set.of(new Role("USER")));
 
-        when(passwordEncoder.encode(any())).thenReturn("password");
+        when(passwordEncoder.encode(anyString())).thenReturn("password");
     }
 
     @Test
@@ -65,6 +64,7 @@ class MyRestControllerTest {
                 .getResponse();
         User userFromResponse = objectMapper.readValue(response.getContentAsString(), User.class);
         assertThat(userFromResponse).isEqualTo(mickey);
+        verify(userService, times(1)).save(mickey);
     }
 
     @Test
@@ -73,7 +73,7 @@ class MyRestControllerTest {
         mockMvc.perform(patch("/users/" + mickey.getUsername())
                         .header("patch_type", "enable"))
                 .andExpect(status().isOk());
-        verify(userService, times(1)).enableUserByUsername(mickey.getUsername());
+        verify(userService).enableUserByUsername(mickey.getUsername());
     }
 
     @Test
@@ -82,7 +82,7 @@ class MyRestControllerTest {
         mockMvc.perform(patch("/users/" + mickey.getUsername())
                         .header("patch_type", "disable"))
                 .andExpect(status().isOk());
-        verify(userService, times(1)).disableUserByUsername(mickey.getUsername());
+        verify(userService).disableUserByUsername(mickey.getUsername());
     }
 
     @Test
@@ -97,12 +97,13 @@ class MyRestControllerTest {
                 .getResponse();
         User userFromResponse = objectMapper.readValue(response.getContentAsString(), User.class);
         assertThat(userFromResponse).isEqualTo(mickey);
+        verify(userService).save(mickey);
     }
 
     @Test
     void deleteUserByUsername() throws Exception {
         mockMvc.perform(delete("/users/" + mickey.getUsername()))
                 .andExpect(status().isOk());
-        verify(userService, times(1)).deleteUserByUsername(mickey.getUsername());
+        verify(userService).deleteUserByUsername(mickey.getUsername());
     }
 }
