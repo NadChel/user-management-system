@@ -44,8 +44,8 @@ public class WebSecurityConfig {
         return username -> {
             User user = userDao.findByUsername(username);
             if (user == null) {
-                String msg = String.format("No user with username %s is found in the database", username);
-                throw new UsernameNotFoundException(msg);
+                String message = String.format("No user with username %s is found in the database", username);
+                throw new UsernameNotFoundException(message);
             }
             return user;
         };
