@@ -22,4 +22,3 @@ services:
       MYSQL_DATABASE: users_db
       MYSQL_USER: pp_user
       MYSQL_PASSWORD: pp_user
-      MYSQL_ROOT_PASSWORD: root_password
