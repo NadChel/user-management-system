@@ -1,4 +1,4 @@
-package pp.spring_bootstrap.models;
+package pp.users.model;
 
 
 import jakarta.persistence.*;

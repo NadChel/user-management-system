@@ -1,11 +1,11 @@
-package pp.spring_bootstrap.dao;
+package pp.users.dao;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import pp.spring_bootstrap.models.User;
+import pp.users.model.User;
 
 import java.util.List;
 

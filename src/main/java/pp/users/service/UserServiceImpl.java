@@ -1,11 +1,11 @@
-package pp.spring_bootstrap.service;
+package pp.users.service;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pp.spring_bootstrap.dao.UserDao;
-import pp.spring_bootstrap.models.User;
+import pp.users.dao.UserDao;
+import pp.users.model.User;
 
 import java.util.List;
 

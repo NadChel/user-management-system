@@ -1,8 +1,8 @@
-package pp.spring_bootstrap.dao;
+package pp.users.dao;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import pp.spring_bootstrap.models.Role;
+import pp.users.model.Role;
 
 import java.util.List;
 

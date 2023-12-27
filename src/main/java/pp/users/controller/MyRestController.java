@@ -1,11 +1,11 @@
-package pp.spring_bootstrap.controllers;
+package pp.users.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import pp.spring_bootstrap.models.User;
-import pp.spring_bootstrap.service.UserService;
+import pp.users.model.User;
+import pp.users.service.UserService;
 
 @RestController
 public class MyRestController {

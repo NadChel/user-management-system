@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>pp</groupId>
-    <artifactId>spring_bootstrap</artifactId>
+    <artifactId>user-management-system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring_bootstrap</name>
-    <description>spring_bootstrap</description>
+    <name>user-management-system</name>
+    <description>user-management-system</description>
     <properties>
         <java.version>17</java.version>
     </properties>

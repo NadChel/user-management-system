@@ -1,8 +1,8 @@
-package pp.spring_bootstrap.service;
+package pp.users.service;
 
 
 import org.springframework.security.core.Authentication;
-import pp.spring_bootstrap.models.User;
+import pp.users.model.User;
 
 import java.util.List;
 

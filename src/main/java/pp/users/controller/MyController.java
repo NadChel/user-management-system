@@ -1,13 +1,13 @@
-package pp.spring_bootstrap.controllers;
+package pp.users.controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import pp.spring_bootstrap.models.Role;
-import pp.spring_bootstrap.models.User;
-import pp.spring_bootstrap.service.RoleService;
-import pp.spring_bootstrap.service.UserService;
+import pp.users.model.Role;
+import pp.users.model.User;
+import pp.users.service.RoleService;
+import pp.users.service.UserService;
 
 @Controller
 public class MyController {

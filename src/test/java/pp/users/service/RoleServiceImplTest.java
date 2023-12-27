@@ -1,12 +1,12 @@
-package pp.spring_bootstrap.service;
+package pp.users.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pp.spring_bootstrap.dao.RoleDao;
-import pp.spring_bootstrap.models.Role;
+import pp.users.dao.RoleDao;
+import pp.users.model.Role;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package pp.spring_bootstrap.service;
+package pp.users.service;
 
-import pp.spring_bootstrap.models.Role;
+import pp.users.model.Role;
 
 import java.util.Set;
 

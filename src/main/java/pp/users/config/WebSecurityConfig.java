@@ -1,4 +1,4 @@
-package pp.spring_bootstrap.configs;
+package pp.users.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import pp.spring_bootstrap.dao.UserDao;
-import pp.spring_bootstrap.models.User;
+import pp.users.dao.UserDao;
+import pp.users.model.User;
 
 @Configuration
 @Import(WebMvcConfig.class)

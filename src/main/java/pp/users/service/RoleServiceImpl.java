@@ -1,9 +1,9 @@
-package pp.spring_bootstrap.service;
+package pp.users.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pp.spring_bootstrap.dao.RoleDao;
-import pp.spring_bootstrap.models.Role;
+import pp.users.dao.RoleDao;
+import pp.users.model.Role;
 
 import java.util.HashSet;
 import java.util.Set;

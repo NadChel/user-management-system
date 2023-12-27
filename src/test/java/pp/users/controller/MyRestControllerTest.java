@@ -1,4 +1,4 @@
-package pp.spring_bootstrap.controllers;
+package pp.users.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,10 +10,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
-import pp.spring_bootstrap.models.Role;
-import pp.spring_bootstrap.models.User;
-import pp.spring_bootstrap.service.RoleService;
-import pp.spring_bootstrap.service.UserService;
+import pp.users.model.Role;
+import pp.users.model.User;
+import pp.users.service.RoleService;
+import pp.users.service.UserService;
 
 import java.util.Set;
 

@@ -1,8 +1,8 @@
-package pp.spring_bootstrap.configs;
+package pp.users.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pp.spring_bootstrap.models.Role;
+import pp.users.model.Role;
 
 import java.util.Set;
 import java.util.StringJoiner;

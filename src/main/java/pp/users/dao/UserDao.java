@@ -1,9 +1,9 @@
-package pp.spring_bootstrap.dao;
+package pp.users.dao;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import pp.spring_bootstrap.models.User;
+import pp.users.model.User;
 
 import java.util.List;
 
