@@ -50,7 +50,9 @@ class UserServiceImplTest {
     @Test
     void findAllExceptLoggedUser() {
         when(userDao.findAllExcept(mickey)).thenReturn(List.of(daisyUser));
-        var usernames = userService.findAllExceptLoggedUser(mickey).stream().map(User::getUsername).toList();
+        List<String> usernames = userService.findAllExceptLoggedUser(mickey).stream()
+                .map(User::getUsername)
+                .toList();
         assertThat(usernames).asList().doesNotContain(mickey);
         verify(userDao, times(1)).findAllExcept(mickey);
     }
@@ -58,7 +60,7 @@ class UserServiceImplTest {
     @Test
     void findLoggedUser() {
         when(userDao.findByUsername(mickey)).thenReturn(mickeyUser);
-        var authenticationMock = mock(Authentication.class);
+        Authentication authenticationMock = mock(Authentication.class);
         when(authenticationMock.getPrincipal()).thenReturn(mickeyUser);
         assertThat(userService.findLoggedUser(authenticationMock))
                 .extracting(User::getUsername).isEqualTo(mickey);

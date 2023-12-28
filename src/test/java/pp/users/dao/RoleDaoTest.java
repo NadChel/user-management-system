@@ -37,7 +37,7 @@ class RoleDaoTest {
 
     @Test
     void findByAuthorityOrAuthority() {
-        var roleStrings = roleDao.findByAuthorityOrAuthority("USER", "ADMIN")
+        List<String> roleStrings = roleDao.findByAuthorityOrAuthority("USER", "ADMIN")
                 .stream()
                 .map(Role::getAuthority)
                 .toList();

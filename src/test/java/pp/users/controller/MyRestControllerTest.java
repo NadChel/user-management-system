@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import pp.users.model.Role;
@@ -55,7 +56,7 @@ class MyRestControllerTest {
 
     @Test
     void addUser() throws Exception {
-        var response = mockMvc.perform(post("/users")
+        MockHttpServletResponse response = mockMvc.perform(post("/users")
                         .content(objectMapper.writeValueAsString(mickey))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -87,7 +88,7 @@ class MyRestControllerTest {
 
     @Test
     void updateUser() throws Exception {
-        var response = mockMvc.perform(put("/users")
+        MockHttpServletResponse response = mockMvc.perform(put("/users")
                         .content(objectMapper.writeValueAsString(mickey))
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("password_change", "false")

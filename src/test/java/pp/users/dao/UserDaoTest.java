@@ -46,7 +46,7 @@ class UserDaoTest {
 
     @Test
     void findAllExcept() {
-        var usernames = userDao.findAllExcept(MICKEY).stream()
+        List<String> usernames = userDao.findAllExcept(MICKEY).stream()
                 .map(User::getUsername)
                 .toList();
         assertThat(usernames.size()).isEqualTo(1);
@@ -63,7 +63,7 @@ class UserDaoTest {
     @Test
     void deleteByUsername() {
         userDao.deleteByUsername(MICKEY);
-        var usernames = userDao.findAll().stream()
+        List<String> usernames = userDao.findAll().stream()
                 .map(User::getUsername)
                 .toList();
         assertThat(usernames).asList().doesNotContain(MICKEY);

@@ -33,7 +33,7 @@ class RoleServiceImplTest {
     void findAdminRoleSet() {
         when(roleDao.findByAuthorityOrAuthority(USER, ADMIN))
                 .thenReturn(List.of(new Role(USER), new Role(ADMIN)));
-        var adminRoles = roleService.findAdminRoleSet().stream()
+        List<String> adminRoles = roleService.findAdminRoleSet().stream()
                 .map(Role::getAuthority)
                 .toList();
         assertThat(adminRoles.size()).isEqualTo(2);
